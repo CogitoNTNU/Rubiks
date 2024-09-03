@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "rubiks cube solver"
+version = "0.0.1"
+description = "CogitoNTNU Rubiks cube solver project"
+package-mode = false
+
+license = "MIT"
+
+authors = [
+    "Even Ytterli Tokle <Evenyt@stud.ntnu.no>",
+]
+
+repository = "https://github.com/CogitoNTNU/Rubiks"
+
+readme = ["README.md", "LICENCE"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+magiccube = "^0.3.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+isort = "^5.13.2"
+pylint = "^3.2.6"
+pymarkdownlnt = "^0.9.22"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
