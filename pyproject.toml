@@ -7,7 +7,13 @@ package-mode = false
 license = "MIT"
 
 authors = [
-    "Even Ytterli Tokle <Evenyt@stud.ntnu.no>",
+    "Eduard Prokhorikhin <eduardprokhorikhin@gmail.com>",
+    "Einride Brodahl Osland <einrideosland@gmail.com>",
+    "Even Ytterli Tokle <Even.Ytterli.Tokle@gmail.com>",
+    "Gustav Natvig <gusnatvig@gmail.com>",
+    "Kien Parajes Le <kienleparajes@gmail.com>",
+    "Vetle Rød Dahl <vetlerod@gmail.com>",
+    "Viljen Apalset Vassbø <viljen.vassbo@gmail.com>",
 ]
 
 repository = "https://github.com/CogitoNTNU/Rubiks"
