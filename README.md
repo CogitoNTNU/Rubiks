@@ -14,7 +14,7 @@
 </div>
 
 
-<details> 
+<details>
 <summary><b>📋 Table of contents </b></summary>
 
 - [TEMPLATE-README](#template-readme)
@@ -28,7 +28,7 @@
 
 </details>
 
-## Description 
+## Description
 <!-- TODO: Provide a brief overview of what this project does and its key features. Please add pictures or videos of the application -->
 
 
@@ -58,13 +58,16 @@ For example: OS version, programs, libraries, etc.
 
 ## Usage
 To run the project, run the following command from the root directory of the project:
+
 ```bash
 
 ```
+
 <!-- TODO: Instructions on how to run the project and use its features. -->
 
 ## Testing
 To run the test suite, run the following command from the root directory of the project:
+
 ```bash
 
 ```
