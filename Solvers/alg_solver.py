@@ -17,16 +17,20 @@ Stages ={
 #innitialize solver
 class AlgSolver:
     def __init__(self, cube: Cube  ) -> None:
+        self.cube = cube
+        self.moves = ("R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2")
         pass
     def findpiece(self):
         #Find 
+        pass
+    def findedge(self):
+        pass
+    def findcorner(self):
         pass
     def solve(self):
         pass
     def getalg():
         pass
-    
-    
-
-
+    def solvecross(self):
+        while self.cube.find_piece("WB")[0] == (1,0,0):
 
