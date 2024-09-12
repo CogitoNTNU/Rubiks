@@ -5,6 +5,8 @@ from magiccube.cube_base import Color, CubeException, Face
 from magiccube.solver.basic.solver_stages import ConditionAction, stage_recenter_down, stage_recenter_front, stage_white_cross, \
     stage_white_corner, stage_2nd_layer, stage_top_cross, stage_order_top_cross, \
     stage_order_top_corners, stage_turn_top_corners
+import alg_base
+import magiccube
 #import alg_base
 
 #Possible stages for the CFOP solve
@@ -19,11 +21,19 @@ Stages ={
 class AlgSolver:
     def __init__(self, cube: Cube  ) -> None:
         self.cube = cube
+    def findpiece(self, piece):
+        self.cube = cube
         self.moves = ("R", "R'", "R2", "L", "L'", "L2", "U", "U'", "U2", "D", "D'", "D2", "F", "F'", "F2", "B", "B'", "B2")
         pass
     def findpiece(self):
         #Find 
+        return self.cube.find_piece(piece)
+    def getpiece(self, coords=(0,0,0)):
+        return self.cube.get_piece(coords)
+    
+    def getstate(self):
         pass
+    
     def findedge(self):
         pass
     def get_corners(self):
@@ -35,9 +45,9 @@ class AlgSolver:
         pass
     def getalg():
         pass
+
     def solvecross(self):
         """Solves the white cross"""
-
         i = 0
         while i<1000:
             self.cube.rotate(self.moves[i])
@@ -62,6 +72,8 @@ class AlgSolver:
         #solve the green and red corner
         #print(faces)
         #print(faces[Face.F])
-
         return ""
 
+c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
+
+ass = AlgSolver(c)
