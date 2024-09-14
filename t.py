@@ -10,9 +10,11 @@ cube = magiccube.Cube(
 #print(cube.get_all_pieces())
 print(cube.find_piece("BRW"))
 #print(cube)
-cube.rotate("R U R' U R U2 R'")
-print(cube.get_piece((0,0,0)))
-#print(cube)
+print(cube.get_piece((2,2,2)))
+cube.rotate("Y2 R U R' U R U2 R'")
+
+print(cube)
 print(cube.find_piece("BRW"))
+
 
 
