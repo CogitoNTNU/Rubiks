@@ -262,19 +262,19 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "4.2.2"
+version = "4.3.2"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "platformdirs-4.2.2-py3-none-any.whl", hash = "sha256:2d7a1657e36a80ea911db832a8a6ece5ee53d8de21edd5cc5879af6530b1bfee"},
-    {file = "platformdirs-4.2.2.tar.gz", hash = "sha256:38b7b51f512eed9e84a22788b4bce1de17c0adb134d6becb09836e37d8654cd3"},
+    {file = "platformdirs-4.3.2-py3-none-any.whl", hash = "sha256:eb1c8582560b34ed4ba105009a4badf7f6f85768b30126f351328507b2beb617"},
+    {file = "platformdirs-4.3.2.tar.gz", hash = "sha256:9e5e27a08aa095dd127b9f2e764d74254f482fef22b0970773bfba79d091ab8c"},
 ]
 
 [package.extras]
-docs = ["furo (>=2023.9.10)", "proselint (>=0.13)", "sphinx (>=7.2.6)", "sphinx-autodoc-typehints (>=1.25.2)"]
-test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4.3)", "pytest-cov (>=4.1)", "pytest-mock (>=3.12)"]
-type = ["mypy (>=1.8)"]
+docs = ["furo (>=2024.8.6)", "proselint (>=0.14)", "sphinx (>=8.0.2)", "sphinx-autodoc-typehints (>=2.4)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=8.3.2)", "pytest-cov (>=5)", "pytest-mock (>=3.14)"]
+type = ["mypy (>=1.11.2)"]
 
 [[package]]
 name = "pylint"
@@ -302,13 +302,13 @@ testutils = ["gitpython (>3)"]
 
 [[package]]
 name = "pymarkdownlnt"
-version = "0.9.22"
+version = "0.9.23"
 description = "A GitHub Flavored Markdown compliant Markdown linter."
 optional = false
 python-versions = ">=3.8.0"
 files = [
-    {file = "pymarkdownlnt-0.9.22-py3-none-any.whl", hash = "sha256:f4a58c429711193f6ec474d51def561127a0b08f5159fa96c5ea284f5d3b9b33"},
-    {file = "pymarkdownlnt-0.9.22.tar.gz", hash = "sha256:e9f2f1936088af661c9a44c0cccaf5b0e8fbfbdbaec4c691f674bbbd6ac6c389"},
+    {file = "pymarkdownlnt-0.9.23-py3-none-any.whl", hash = "sha256:86738a1792ba4504474d075f462cf6fca017077efa4848eda0846b1c75a4648e"},
+    {file = "pymarkdownlnt-0.9.23.tar.gz", hash = "sha256:c1a6c86332d25390f614160b39bcd92dd3d20b119ed0750aa3f8f9f8be94f74c"},
 ]
 
 [package.dependencies]

@@ -39,6 +39,14 @@ class AlgSolver:
     def getstate(self):
         pass
 
+    
+    def findedge(self):
+        pass
+    def get_corners(self):
+        """returns coordinates and colors of all corners"""
+        pieces = list(self.cube.get_all_pieces().items())
+        corners = [(key,value) for key,value in pieces if not key[0]%2 and not key[1]%2 and not key[2]%2]
+        return corners
     def solve(self):
         pass
 
@@ -53,6 +61,33 @@ class AlgSolver:
         # where the piece should go
         pass
 
+    def solvecross(self):
+        """Solves the white cross"""
+        i = 0
+        while i<1000:
+            self.cube.rotate(self.moves[i])
+            if not self.cube.find_piece("WB")[0] == (1,0,0) and not self.cube.find_piece("WB")[0] == (0,1,0) and not self.cube.find_piece("WB")[0] == (0,0,1):
+                self.cube.rotate(self.moves[i])
+                self.cube.rotate(self.moves[i])
+                self.cube.rotate(self.moves[i])
+            else:
+                self.cube.rotate(self.moves[i])
+                self.cube.rotate(self.moves[i])
+                self.cube.rotate(self.moves[i])
+                break
+            i+=1
+        return self.moves[i]
+    def solvef2l(self):
+        """Solves the first two layers of the cube"""
+        faces = self.cube.get_all_faces()
+        corners = self.get_corners()
+
+        print(corners)
+
+        #solve the green and red corner
+        #print(faces)
+        #print(faces[Face.F])
+        return ""
 
 c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
 
