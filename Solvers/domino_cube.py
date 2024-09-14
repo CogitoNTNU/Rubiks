@@ -7,7 +7,3 @@ class Domino_cube:
         self.cube = cube
         self.scramble = scramble
         self.edgecount = edgecount
-        
-
-        
-    
