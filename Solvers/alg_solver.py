@@ -13,7 +13,13 @@ from magiccube.solver.basic.solver_stages import (
     stage_order_top_corners,
     stage_turn_top_corners,
 )
-import alg_base
+
+# import alg_base
+# if __name__ == "__main__":
+#     import alg_base
+# else:
+#     import Solvers.alg_base
+
 import magiccube
 
 Stages = {}
@@ -27,6 +33,9 @@ class AlgSolver:
         self.scramble = scramble
         self.cornermem = None
         self.centers = None
+        self.unscrambled = unscrambled = magiccube.Cube(
+            3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
+        )
 
     def findpiece(self, piece):
         # Find a piece based on the colors of the piece
@@ -41,6 +50,9 @@ class AlgSolver:
 
     def findedge(self):
         pass
+
+    def get_home(self, coords):
+        return self.unscrambled.find_piece(str(self.cube.get_piece(coords)))[0]
 
     def get_corners(self):
         """returns coordinates and colors of all corners"""
@@ -103,4 +115,3 @@ class AlgSolver:
 c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
 
 ass = AlgSolver(c)
-

@@ -1,28 +1,25 @@
 import magiccube
-import Solvers.alg_solver as alg
+from Solvers.alg_solver import AlgSolver
 
 
 # Create the cube in solved state
-cube = magiccube.Cube(
-    3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
+unscrambled = magiccube.Cube(
+    3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
+)
+cube = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
 
 # Print the cube
 
 cube.rotate("B")
 
-print(cube)
-algthing = alg.AlgSolver(cube)
-
-
-cube.rotate(algthing.solvef2l())
-#print(cube.get_all_pieces())
-print(cube.find_piece("BRW"))
-#print(cube)
-print(cube.get_piece((2,2,2)))
 cube.rotate("Y2 R U R' U R U2 R'")
-
-print(cube)
-print(cube.find_piece("BRW"))
+cube.rotate("Y2 R U R' U L U2 R'")
 
 
-
+# print(cube)
+# cube.get_piece((2, 2, 1))
+# print(cube.get_piece((2, 2, 1)))
+test = AlgSolver(cube)
+print(unscrambled.find_piece(str(cube.get_piece((2, 2, 1))))[0])
+print(test.get_home((2, 2, 1)))
+# print(test.get_home((2, 2, 1)))
