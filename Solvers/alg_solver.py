@@ -115,7 +115,7 @@ class AlgSolver:
 
     def getlettercenter(self, coords):
         # Gives a memorization letter based on the letterscheme
-        # where the pcenter iece should go
+        # where the center piece should go
         pass
 
     def getlettercorner(self, coords):

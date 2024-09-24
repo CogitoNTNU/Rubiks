@@ -4,9 +4,10 @@ from Solvers.alg_solver import AlgSolver
 
 # Create the cube in solved state
 unscrambled = magiccube.Cube(
-    3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
+    3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY"
 )
 cube = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
+
 
 # Print the cube
 
@@ -28,3 +29,4 @@ print(test.getalgs("q B f G"))
 cube.rotate(test.getalg("q"))
 print(cube)
 # print(test.get_home((2, 2, 1)))
+print(unscrambled)
