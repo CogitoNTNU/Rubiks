@@ -11,22 +11,21 @@ cube = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW
 
 # Print the cube
 
-# cube.rotate("B")
+cube.rotate("B")
 # cube.rotate("U L F")
 # cube.rotate("Y2 R U R' U R U2 R'")
 # cube.rotate("Y2 R U R' U L U2 R'")
+algSolver = AlgSolver(cube)
 
 
-# print(cube)
-# cube.get_piece((2, 2, 1))
-# print(cube.get_piece((2, 2, 1)))
-test = AlgSolver(cube)
-# print(cube.get_piece((2, 2, 1)))
-# print(cube.get_piece((1, 2, 2)).get_piece_colors_str(), "ah")
-# print(cube.get_piece((0, 2, 1)))
-# print(cube.get_piece((1, 2, 0)))
-# print(test.getalgs("q B f G"))
-cube.rotate(test.getalg("q"))
-print(test.getalgfromcolor("WGR"))
-# print(test.get_home((2, 2, 1)))
-print(unscrambled)
+# Vi skal finne baser på kva som er på bufferen kor den skal og returnere den
+
+print(cube)
+
+piece = "YOB"
+print(f"findPiece for '{piece}' {algSolver.findpiece(piece)}")
+print(f"Get home by name '{piece}'' {algSolver.get_home_by_name(piece)}")
+print(f"Get home by coords: {algSolver.get_home_by_coords(algSolver.findpiece(piece)[0])}")
+
+
+
