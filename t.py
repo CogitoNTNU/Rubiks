@@ -4,10 +4,11 @@ from Solvers.alg_solver import AlgSolver
 
 # Create the cube in solved state
 unscrambled = magiccube.Cube(
-    3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
+    3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY"
 )
 cube = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-# print(len("WWWWWWWWWRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWWYYYYYYYYY"))
+
+
 # Print the cube
 
 cube.rotate("B")
@@ -27,7 +28,4 @@ print(f"Get home by name '{piece}'' {algSolver.get_home_by_name(piece)}")
 print(f"Get home by coords: {algSolver.get_home_by_coords(algSolver.findpiece(piece)[0])}")
 
 
-#While brikken pos ikke er på "rett plass" add til liste
-# print(
-#     f"Get home by name '{piece}'' {algSolver.get_home_by_coords(algSolver.findpiece(piece))}"
-# )
+
