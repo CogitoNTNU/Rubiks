@@ -12,17 +12,28 @@ class AlgSolver:
         self.cornermem = None
         self.centers = None
         self.unscrambled = magiccube.Cube(
-            3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW"
+            3, "WWWWWWWWWRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBYYYYYYYYY"
         )
 
     def findpiece(self, piece):
         # Find a piece based on the colors of the piece
-        # i.e "BRW" gives 0,0,0 in uscrambled (white bottom yellow top)
+        # i.e "BRY" gives 0,0,0 in uscrambled (yellow bottom white top)
         return self.cube.find_piece(piece)
 
-    def get_home(self, coords):
-        # Finds where a piece from a coordinate belongs
+    def get_home_by_coords(self, coords):
+        # Finds where a piece from a coordinate belongs based on its coords
         return self.unscrambled.find_piece(str(self.cube.get_piece(coords)))[0]
+
+    def get_home_by_name(self, piece: str):
+        # Finds where a piece from a coordinate belongs based on its name
+        return self.unscrambled.find_piece(piece)[0]
+
+    # def get_edge_
+
+    def get_letter(
+        self,
+    ):
+        pass
 
     def getalg(letter):
         # Based on what letter is given,
@@ -48,3 +59,4 @@ class AlgSolver:
 c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
 
 ass = AlgSolver(c)
+# print("DB")
