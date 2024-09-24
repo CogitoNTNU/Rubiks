@@ -52,6 +52,28 @@ letters = {
     "w": "M U2 M U2",
     "x": "U' L2 U",
 }
+algs_from_color = {
+    "WG": "ci",
+    "WO": "de",
+    "WB": "aq",
+    "WR": "bm",
+    "GO": "lf",
+    "GR": "jp",
+    "BR": "tn",
+    "BO": "rh",
+    "YG": "uk",
+    "YR": "ov",
+    "YB": "ws",
+    "YO": "xg",
+    "WOB": "AER",
+    "RWB": "BQN",
+    "RWG": "CMJ",
+    "WGO": "DIF",
+    "YOB": "XSH",
+    "YBR": "WTO",
+    "YRG": "VPK",
+    "YGO": "ULG",
+}
 special_cases = ["a", "c", "i", "q", "s", "w"]
 
 
@@ -117,6 +139,29 @@ class AlgSolver:
         # Gives a memorization letter based on the letterscheme
         # where the center piece should go
         pass
+
+    def getalgfromcolor(self, letters):
+        keys = algs_from_color.keys()
+        if len(letters) == 2:
+            if letters in keys:
+                return algs_from_color[letters]
+            else:
+                rev_letters = letters[::-1]
+                if letters in keys:
+                    return algs_from_color[rev_letters]
+                else:
+                    return None
+        elif len(letters) == 3:
+            for _ in range(2):
+                letters = letters[1:] + letters[0]
+                if letters in keys:
+                    return algs_from_color[letters]
+            letters = letters[0] + letters[2] + letters[1]
+            for _ in range(2):
+                letters = letters[1:] + letters[0]
+                if letters in keys:
+                    return algs_from_color[letters]
+            return None
 
     def getlettercorner(self, coords):
         # Gives a memortization based on the letterscheme
