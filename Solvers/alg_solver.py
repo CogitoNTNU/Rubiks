@@ -186,7 +186,7 @@ class AlgSolver:
 
     def solve(self) -> str:
         # TODO: put everything together
-        pass
+        return ""
 
 
 if __name__ == "__main__":
