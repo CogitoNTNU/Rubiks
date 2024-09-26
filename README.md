@@ -60,7 +60,7 @@ For example: OS version, programs, libraries, etc.
 ## Usage
 To run the solve the cube using the 3bld M2 method, run the following command from the root directory of the project:
 
-```
+```bash
 python main.py 3bld  
 ```
 
