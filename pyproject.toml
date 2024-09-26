@@ -23,6 +23,7 @@ readme = ["README.md", "LICENCE"]
 [tool.poetry.dependencies]
 python = "^3.12"
 magiccube = "^0.3.0"
+pytest = "^8.3.3"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.8.0"

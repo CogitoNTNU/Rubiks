@@ -1,7 +1,7 @@
 # Environment
 
 For consistency across all pc-s we need to keep track of dependencies and required libraries. We will be using a virtual environment to manage these dependencies called Poetry. Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
-
+ 
 ## Installation
 
 On macOS and Linux, you can install Poetry
