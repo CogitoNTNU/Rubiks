@@ -86,7 +86,7 @@ class AlgSolver:
         self.cornermem = None
         self.centers = None
         self.unscrambled = magiccube.Cube(
-            3, "WWWWWWWWWRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBYYYYYYYYY"
+            3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY"
         )
 
     def findpiece(self, piece):
