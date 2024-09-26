@@ -184,8 +184,14 @@ class AlgSolver:
         # and moving the buffer to that spot
         pass
 
+    def solve(self) -> str:
+        # TODO: put everything together
+        pass
 
-c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
 
-ass = AlgSolver(c)
-# print("DB")
+if __name__ == "__main__":
+    c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
+
+    solver = AlgSolver(c)
+    solver.solve()
+    # print("DB")
