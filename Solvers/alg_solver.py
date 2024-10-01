@@ -150,9 +150,9 @@ class AlgSolver:
             if letters in keys:
                 return algs_from_color[letters]
             else:
-                rev_letters = letters[::-1]
+                letters = letters[::-1]
                 if letters in keys:
-                    return algs_from_color[rev_letters]
+                    return algs_from_color[letters]
                 else:
                     return None
         elif len(letters) == 3:
