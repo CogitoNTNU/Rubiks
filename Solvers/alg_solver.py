@@ -81,7 +81,7 @@ special_cases = ["a", "c", "i", "q", "s", "w"]
 class AlgSolver:
     def __init__(self, cube: Cube, scramble=0) -> None:
         self.cube = cube
-        self.solution = None
+        self.solution = []
         self.scramble = scramble
         self.cornermem = None
         self.centers = None
@@ -173,8 +173,52 @@ class AlgSolver:
         pass
 
     def cyclebreak(self):
-        # Solves a cycle by choosing a random piece that hasnt been solved
-        # and moving the buffer to that spot
+        # breaks the cycle if the buffer returns to home.
+        for _, value in algs_from_color.items():
+            if (
+                value[0] not in self.solution and value[1] not in self.solution
+            ) and "buffer" not in self.getalg(value[0]):
+                self.cube.rotate(self.getalg(value[0]))
+                self.solution.append(value[0])
+                print(value[0])
+
+                return True
+        return False
+
+    def solveedges(self):
+        for _ in range(16):
+            color_str = self.getalgfromcolor(
+                self.cube.get_piece((1, 0, 2)).get_piece_colors_str()
+            )
+            if "buffer" in self.getalg(color_str[0]):
+                bool = self.cyclebreak()
+                if not bool:
+                    return True
+                continue
+
+            print(self.cube.get_piece((1, 0, 2)))
+            print(color_str[0])
+            if color_str[0] == "c" and len(self.solution) % 2:
+                self.cube.rotate(self.getalg("w"))
+                self.solution.append("w")
+            elif color_str[0] == "w" and len(self.solution) % 2:
+                self.cube.rotate(self.getalg("c"))
+                self.solution.append("c")
+            elif color_str[0] == "i" and len(self.solution) % 2:
+                self.cube.rotate(self.getalg("s"))
+                self.solution.append("s")
+            elif color_str[0] == "s" and len(self.solution) % 2:
+                self.cube.rotate(self.getalg("i"))
+                self.solution.append("i")
+            else:
+                self.cube.rotate(self.getalg(color_str[0]))
+                self.solution.append(color_str[0])
+
+    def solvecorners(self):
+        for _ in range(16):
+            color_str = self.getalgfromcolor(
+                self.cube.get_piece((1, 0, 2)).get_piece_colors_str()
+            )
         pass
 
     def solve(self) -> str:

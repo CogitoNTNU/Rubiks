@@ -31,13 +31,8 @@ algSolver = AlgSolver(cube)
 # print(
 #    f"Get home by coords: {algSolver.get_home_by_coords(algSolver.findpiece(piece)[0])}"
 # )
-cube.scramble()
-print(cube)
-for i in range(20):
-    color_str = cube.get_piece((1, 0, 2)).get_piece_colors_str()
-    if "buffer" in algSolver.getalg(algSolver.getalgfromcolor(color_str)[0]):
-        break
-    print(algSolver.getalgfromcolor(color_str)[0])
-    print(cube.get_piece((1, 0, 2)))
-    cube.rotate(algSolver.getalg(algSolver.getalgfromcolor(color_str)[0]))
-print(cube)
+algSolver.cube.scramble()
+print(algSolver.cube)
+algSolver.solveedges()
+print(algSolver.cube)
+print(algSolver.solution, len(algSolver.solution))
