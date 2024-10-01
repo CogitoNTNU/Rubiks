@@ -65,11 +65,11 @@ algs_from_color = {
     "YR": "vo",
     "YB": "ws",
     "YO": "xg",
-    "WOB": "AER",
-    "RWB": "BQN",
-    "RWG": "CMJ",
+    "OWB": "EAR",
+    "RWB": "NBQ",
+    "RWG": "MCJ",
     "WGO": "DIF",
-    "YOB": "XSH",
+    "YOB": "XHS",
     "YBR": "WTO",
     "YRG": "VPK",
     "YGO": "ULG",
@@ -109,7 +109,7 @@ class AlgSolver:
         for i in range(len(alg_list)):
             if "'" in alg_list[i]:
                 alg_list[i] = alg_list[i].replace("'", "")
-            elif "2" not in alg_list[i]:
+            elif "2" not in alg_list[i] and len(alg_list) > 0:
                 alg_list[i] = alg_list[i] + "'"
         return " ".join(alg_list)
 
@@ -156,15 +156,38 @@ class AlgSolver:
                 else:
                     return None
         elif len(letters) == 3:
-            for _ in range(2):
-                letters = letters[1:] + letters[0]
-                if letters in keys:
-                    return algs_from_color[letters]
-            letters = letters[0] + letters[2] + letters[1]
-            for _ in range(2):
-                letters = letters[1:] + letters[0]
-                if letters in keys:
-                    return algs_from_color[letters]
+            if letters in keys:
+                return algs_from_color[letters]
+            if letters[0] + letters[2] + letters[1] in keys:
+                return (
+                    algs_from_color[letters[0] + letters[2] + letters[1]][0]
+                    + algs_from_color[letters[0] + letters[2] + letters[1]][2]
+                    + algs_from_color[letters[0] + letters[2] + letters[1]][1]
+                )
+            if letters[1] + letters[0] + letters[2] in keys:
+                return (
+                    algs_from_color[letters[1] + letters[0] + letters[2]][1]
+                    + algs_from_color[letters[1] + letters[0] + letters[2]][0]
+                    + algs_from_color[letters[1] + letters[0] + letters[2]][2]
+                )
+            if letters[1] + letters[2] + letters[0] in keys:
+                return (
+                    algs_from_color[letters[1] + letters[2] + letters[0]][1]
+                    + algs_from_color[letters[1] + letters[2] + letters[0]][2]
+                    + algs_from_color[letters[1] + letters[2] + letters[0]][0]
+                )
+            if letters[2] + letters[0] + letters[1] in keys:
+                return (
+                    algs_from_color[letters[2] + letters[0] + letters[1]][2]
+                    + algs_from_color[letters[2] + letters[0] + letters[1]][0]
+                    + algs_from_color[letters[2] + letters[0] + letters[1]][1]
+                )
+            if letters[2] + letters[1] + letters[0] in keys:
+                return (
+                    algs_from_color[letters[2] + letters[1] + letters[0]][2]
+                    + algs_from_color[letters[2] + letters[1] + letters[0]][1]
+                    + algs_from_color[letters[2] + letters[1] + letters[0]][0]
+                )
             return None
 
     def getlettercorner(self, coords):
@@ -191,6 +214,13 @@ class AlgSolver:
                 self.cube.get_piece((1, 0, 2)).get_piece_colors_str()
             )
             if "buffer" in self.getalg(color_str[0]):
+                for edge in [
+                    piece
+                    for piece in self.cube.get_all_pieces()
+                    if len(self.cube.get_piece(piece).get_piece_colors_str()) == 2
+                ]:
+                    if self.get_home_by_coords(edge) == edge:
+                        continue
                 bool = self.cyclebreak()
                 if not bool:
                     return True
@@ -215,11 +245,29 @@ class AlgSolver:
                 self.solution.append(color_str[0])
 
     def solvecorners(self):
-        for _ in range(16):
+        for _ in range(12):
             color_str = self.getalgfromcolor(
-                self.cube.get_piece((1, 0, 2)).get_piece_colors_str()
+                self.cube.get_piece((0, 2, 0)).get_piece_colors_str()
             )
-        pass
+            # print(self.cube.get_piece((0, 2, 0)).get_piece_colors_str())
+            print(color_str)
+            if (
+                self.getalg(color_str[0]) in self.solution
+                or self.getalg(color_str[1]) in self.solution
+                or self.getalg(color_str[2]) in self.solution
+            ):
+                print("Already in solution")
+                break
+            if "buffer" in self.getalg(color_str[0]):
+                if not bool:
+                    return True
+                self.cyclebreak()
+                continue
+
+            self.cube.rotate(self.getalg(color_str[0]))
+            self.solution.append(color_str[0])
+
+        print(self.cube)
 
     def solve(self) -> str:
         # TODO: put everything together

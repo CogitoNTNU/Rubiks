@@ -32,7 +32,10 @@ algSolver = AlgSolver(cube)
 #    f"Get home by coords: {algSolver.get_home_by_coords(algSolver.findpiece(piece)[0])}"
 # )
 algSolver.cube.scramble()
-print(algSolver.cube)
+
 algSolver.solveedges()
+print(algSolver.cube)
+print(algSolver.solution, len(algSolver.solution))
+# algSolver.solvecorners()
 print(algSolver.cube)
 print(algSolver.solution, len(algSolver.solution))
