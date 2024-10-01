@@ -29,7 +29,7 @@ letters = {
     "X": "D2",
     "a": "M2",
     "b": "R U R' U'",
-    "c": "U B' R U' B M2 B' U R' B U'",
+    "c": "U2 M' U2 M'",
     "d": "L' U' L U",
     "e": "B L' B'",
     "f": "B L2 B'",
@@ -45,7 +45,7 @@ letters = {
     "p": "B' R2 B",
     "q": "U B' R U' B M2 B' U R' B U'",
     "r": "U' L U",
-    "s": " M2' D U R2 U' M' U R2 U' M D'",
+    "s": "M2 D U R2 U' M' U R2 U' M D'",
     "t": "U R' U'",
     "u": "buffer",
     "v": "U R2 U'",
@@ -62,7 +62,7 @@ algs_from_color = {
     "BR": "tn",
     "BO": "rh",
     "YG": "uk",
-    "YR": "ov",
+    "YR": "vo",
     "YB": "ws",
     "YO": "xg",
     "WOB": "AER",
@@ -152,7 +152,7 @@ class AlgSolver:
             else:
                 letters = letters[::-1]
                 if letters in keys:
-                    return algs_from_color[letters]
+                    return algs_from_color[letters][::-1]
                 else:
                     return None
         elif len(letters) == 3:
