@@ -4,29 +4,29 @@ import magiccube
 
 letters = {
     "A": "buffer",
-    "B": "R D'",
-    "C": "F",
-    "D": "F R'",
-    "E": "F' D",
-    "F": "F2 D",
-    "G": "D R",
-    "H": "D",
-    "I": "R'",
-    "J": "R2",
-    "K": "R",
-    "L": "",
-    "M": "R' F",
-    "N": "buffer",
-    "O": "D' R",
-    "P": "D'",
-    "Q": "buffer",
-    "R": "F2",
-    "S": "D2 R",
-    "T": "D2",
-    "U": "F'",
-    "V": "D' F'",
-    "W": "D2 F'",
-    "X": "D F'",
+    "B": "R2",
+    "C": "F2 D",
+    "D": "F2",
+    "E": "buffer",
+    "F": "F' D",
+    "G": "F'",
+    "H": "D' R",
+    "I": "F R'",
+    "J": "R'",
+    "K": "R' D'",
+    "L": "F2 R'",
+    "M": "R D'",
+    "N": "R' F",
+    "O": "R2 F",
+    "P": "F F",
+    "Q": "R D'",
+    "R": "buffer",
+    "S": "D F'",
+    "T": "R",
+    "U": "D",
+    "V": "",
+    "W": "D'",
+    "X": "D2",
     "a": "M2",
     "b": "R U R' U'",
     "c": "U B' R U' B M2 B' U R' B U'",
@@ -101,13 +101,6 @@ class AlgSolver:
     def get_home_by_name(self, piece: str):
         # Finds where a piece from a coordinate belongs based on its name
         return self.unscrambled.find_piece(piece)[0]
-
-    # def get_edge_
-
-    def get_letter(
-        self,
-    ):
-        pass
 
     def reversealg(self, alg: str):
         # reverses the given algorithm

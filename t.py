@@ -5,7 +5,7 @@ from Solvers.alg_solver import AlgSolver
 # Create the cube in solved state
 unscrambled = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
 cube = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-
+feil = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBGGGGGGGGG")
 
 # Print the cube
 
@@ -26,4 +26,4 @@ print(f"Get home by name '{piece}'' {algSolver.get_home_by_name(piece)}")
 print(f"Get home by coords: {algSolver.get_home_by_coords(algSolver.findpiece(piece)[0])}")
 
 
-
+print(feil)
