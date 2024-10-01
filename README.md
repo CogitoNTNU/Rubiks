@@ -75,7 +75,7 @@ To run the test suite, run the following command from the root directory of the 
 
 ## Team
 This project would not have been possible without the hard work and dedication of all of the contributors. Thank you for the time and effort you have put into making this project a reality.
-
+:D
 
 <table align="center">
     <tr>
