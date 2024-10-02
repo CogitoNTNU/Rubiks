@@ -24,7 +24,7 @@ letters = {
     "S": "D F'",
     "T": "R",
     "U": "D",
-    "V": "",
+    "V": " ",
     "W": "D'",
     "X": "D2",
     "a": "M2",
@@ -139,11 +139,6 @@ class AlgSolver:
             algs += self.getalg(letter) + " "
         return algs
 
-    def getlettercenter(self, coords):
-        # Gives a memorization letter based on the letterscheme
-        # where the center piece should go
-        pass
-
     def getalgfromcolor(self, letters):
         keys = algs_from_color.keys()
         if len(letters) == 2:
@@ -190,20 +185,15 @@ class AlgSolver:
                 )
             return None
 
-    def getlettercorner(self, coords):
-        # Gives a memortization based on the letterscheme
-        # where a corner piece should go
-        pass
-
     def cyclebreak(self):
         # breaks the cycle if the buffer returns to home.
         for _, value in algs_from_color.items():
             if (
-                value[0] not in self.solution and value[1] not in self.solution
+                value[0] not in self.solution and value[1] not in self.solution and not value[0].isupper()
             ) and "buffer" not in self.getalg(value[0]):
+                print(value[0], "cycle break")
                 self.cube.rotate(self.getalg(value[0]))
                 self.solution.append(value[0])
-                print(value[0])
 
                 return True
         return False
@@ -263,7 +253,7 @@ class AlgSolver:
                     return True
                 self.cyclebreak()
                 continue
-
+            print(color_str[0], "Alg to perform", self.getalg(color_str[0]))
             self.cube.rotate(self.getalg(color_str[0]))
             self.solution.append(color_str[0])
 
