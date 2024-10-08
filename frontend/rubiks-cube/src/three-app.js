@@ -356,7 +356,7 @@ const threeApp = () => {
 
     globals.cube = L.getSolvedCube(globals.cubeSize)
     globals.pieceGeometry = await loadGeometry("/rubiks-cube/cube-bevelled.glb")
-    CC.setCustomPreset(CC.presets.normal)
+    CC.setCustomcCube(CC.customCubes.normal)
     globals.cube = CC.currentCube
     createUiPieces()
 

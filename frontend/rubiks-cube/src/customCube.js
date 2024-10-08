@@ -22,11 +22,11 @@ export const makeCustomCube = (pieces) => {
     return cube;
 };
 
-export const setCustomPreset = (cubePreset) => {
-    currentCube = makeCustomCube(cubePreset);
+export const setCustomcCube = (cube) => {
+    currentCube = cube;
 };
 
-export const createPreset = (presetStr) => {
+export const createCustomCube = (presetStr) => {
     // Validate the input preset string
     if (typeof presetStr !== "string") {
         throw new Error("Invalid input: presetStr should be a string");
@@ -85,15 +85,15 @@ export const createPreset = (presetStr) => {
         }
     });
 
-    return preset;
+    return makeCustomCube(preset);
 }
 
-export const presets = {
-    allWhite: createPresets("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"),
-    allBlue: createPresets("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"),
-    allGreen: createPresets("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"),
-    allRed: createPresets("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"),
-    allOrange: createPresets("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"),
-    allYellow: createPresets("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"),
-    normal: createPresets("WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY"),
+export const customCubes = {
+    allWhite: createCustomCube("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"),
+    allBlue: createCustomCube("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"),
+    allGreen: createCustomCube("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG"),
+    allRed: createCustomCube("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR"),
+    allOrange: createCustomCube("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"),
+    allYellow: createCustomCube("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"),
+    normal: createCustomCube("WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY"),
 };
