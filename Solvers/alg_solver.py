@@ -98,9 +98,16 @@ class AlgSolver:
         # Finds where a piece from a coordinate belongs based on its coords
         return self.unscrambled.find_piece(str(self.cube.get_piece(coords)))[0]
 
+    def get_color_by_coords(self, coords):
+        return self.cube.get_piece(coords).get_piece_colors_str()
+
     def get_home_by_name(self, piece: str):
         # Finds where a piece from a coordinate belongs based on its name
         return self.unscrambled.find_piece(piece)[0]
+
+    def get_unformated_string(self) -> str:
+        # gets a unformated string of the cube
+        pass
 
     def reversealg(self, alg: str):
         # reverses the given algorithm
@@ -136,6 +143,13 @@ class AlgSolver:
         # gets the algorithm for a list of letters
         algs = ""
         for letter in letters.split(" "):
+            algs += self.getalg(letter) + " "
+        return algs
+
+    def getalgsbystr(self, letters):
+        # gets the algorithm for a list of letters
+        algs = ""
+        for letter in letters:
             algs += self.getalg(letter) + " "
         return algs
 
@@ -189,7 +203,9 @@ class AlgSolver:
         # breaks the cycle if the buffer returns to home.
         for _, value in algs_from_color.items():
             if (
-                value[0] not in self.solution and value[1] not in self.solution and not value[0].isupper()
+                value[0] not in self.solution
+                and value[1] not in self.solution
+                and not value[0].isupper()
             ) and "buffer" not in self.getalg(value[0]):
                 print(value[0], "cycle break")
                 self.cube.rotate(self.getalg(value[0]))
@@ -264,9 +280,99 @@ class AlgSolver:
         return ""
 
 
+# ________________________________________________________________________________________
 if __name__ == "__main__":
     c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
 
     solver = AlgSolver(c)
     solver.solve()
     # print("DB")
+
+"""Stdout Cube Print implementation"""
+import os
+from enum import Enum
+from magiccube.cube_base import Color, Face
+
+C_RESET = "\x1b[0;0m"
+# C_BG="\x1b[48;5;231m"
+
+
+class Terminal(Enum):
+    default = 0
+    x256 = 1
+
+
+class CubePrintStr:
+    """Prints a cube to stdout"""
+
+    _xterm256_color_map = {
+        Color.G: "\x1b[48;5;40m\x1b[38;5;232m",
+        Color.B: "\x1b[48;5;21m\x1b[38;5;7m",
+        Color.R: "\x1b[48;5;196m\x1b[38;5;232m",
+        Color.O: "\x1b[48;5;208m\x1b[38;5;232m",
+        Color.Y: "\x1b[48;5;226m\x1b[38;5;232m",
+        Color.W: "\x1b[48;5;248m\x1b[38;5;232m",
+    }
+
+    def __init__(self, cube):
+        self.cube = cube
+        self.term = (
+            Terminal.x256
+            if os.environ.get("TERM") == "xterm-256color"
+            else Terminal.default
+        )
+
+    def _format_color(self, color: Color):
+        """Format color to TTY
+        Only print colors on supported terminals (xterm-256color)
+        """
+        formated_color = " " + color.name + " "
+
+        if self.term == Terminal.x256:
+            formated_color = (
+                CubePrintStr._xterm256_color_map.get(color, "")
+                + formated_color
+                + C_RESET
+            )
+
+        return formated_color
+
+    def _print_top_down_face(self, cube, face):
+        result = ""
+        for index, color in enumerate(cube.get_face_flat(face)):
+            if index % cube.size == 0:
+                result += " " * ((3 * cube.size))
+
+            result += self._format_color(color)
+
+            if index % cube.size == cube.size - 1:
+                result += " " * ((2 * 3 * cube.size))
+                result += "\n"
+        return result
+
+    def print_cube(self):
+        "Print the cube to stdout"
+        cube = self.cube
+
+        # flatten midle layer
+        print_order_mid = zip(
+            cube.get_face(Face.L),
+            cube.get_face(Face.F),
+            cube.get_face(Face.R),
+            cube.get_face(Face.B),
+        )
+
+        # TOP
+        result = self._print_top_down_face(cube, Face.U)
+        # MID
+        for line in print_order_mid:
+            for line_index, face_line in enumerate(line):
+                for face_line_index, color in enumerate(face_line):
+                    result += self._format_color(color)
+
+                    if face_line_index % cube.size == cube.size - 1:
+                        result += ""
+
+        # BOTTOM
+        result += self._print_top_down_face(cube, Face.D)
+        return result
