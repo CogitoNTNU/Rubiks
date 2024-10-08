@@ -214,6 +214,19 @@ class AlgSolver:
                 return True
         return False
 
+    def cyclebreakcorners(self):
+        # breaks the cycle if the buffer returns to home.
+        for _, value in algs_from_color.items():
+            if (
+                value[0] not in self.solution and value[1] not in self.solution
+            ) and "buffer" not in self.getalg(value[0]):
+                print(value[0], "cycle break")
+                self.cube.rotate(self.getalg(value[0]))
+                self.solution.append(value[0])
+
+                return True
+        return False
+
     def solveedges(self):
         for _ in range(16):
             color_str = self.getalgfromcolor(
@@ -251,6 +264,9 @@ class AlgSolver:
                 self.solution.append(color_str[0])
 
     def solvecorners(self):
+        if len(self.solution)%2==1:
+            print("parity")
+            self.cube.rotate("D' L2 D M2 D' L2 D")
         for _ in range(12):
             color_str = self.getalgfromcolor(
                 self.cube.get_piece((0, 2, 0)).get_piece_colors_str()
@@ -267,9 +283,9 @@ class AlgSolver:
             if "buffer" in self.getalg(color_str[0]):
                 if not bool:
                     return True
-                self.cyclebreak()
+                self.cyclebreakcorners()
                 continue
-            print(color_str[0], "Alg to perform", self.getalg(color_str[0]))
+            print(color_str[0])
             self.cube.rotate(self.getalg(color_str[0]))
             self.solution.append(color_str[0])
 
