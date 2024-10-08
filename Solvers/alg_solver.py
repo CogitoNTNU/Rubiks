@@ -109,12 +109,12 @@ class AlgSolver:
     def get_unformated_string(self):
         cube = self.cube
         faces = [
-            cube.get_face(Face.U),  
-            cube.get_face(Face.L),  
-            cube.get_face(Face.F),  
-            cube.get_face(Face.R),  
-            cube.get_face(Face.B),  
-            cube.get_face(Face.D),  
+            cube.get_face(Face.U),
+            cube.get_face(Face.L),
+            cube.get_face(Face.F),
+            cube.get_face(Face.R),
+            cube.get_face(Face.B),
+            cube.get_face(Face.D),
         ]
         result = "".join(
             "".join("".join(str(color) for color in row) for row in face)
@@ -122,7 +122,7 @@ class AlgSolver:
         )
         ans = [result[x] for x in range(6, len(result), 7)]
         ans = "".join(ans)
-        return ans #Returnerer kver blokk på samme format som når man initialiserer ei kube
+        return ans  # Returnerer kver blokk på samme format som når man initialiserer ei kube
 
     def getalg(self, letter: str):
         """
@@ -268,7 +268,7 @@ class AlgSolver:
                 self.solution.append(color_str[0])
 
     def solvecorners(self):
-        if len(self.solution)%2==1:
+        if len(self.solution) % 2 == 1:
             print("parity")
             self.cube.rotate("D' L2 D M2 D' L2 D")
         for _ in range(12):
