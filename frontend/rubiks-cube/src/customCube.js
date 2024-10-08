@@ -3,6 +3,11 @@ import * as R from "./logic/rotations"
 
 export var currentCube = [];
 
+/**
+ * Function that creates a custom cube with the provided pieces
+ * @param {*} pieces an array of object literal pieces that make up the cube
+ * @returns a custom cube with the provided pieces
+ */
 export const makeCustomCube = (pieces) => {
     // Validate the input pieces
     if (!Array.isArray(pieces)) {
@@ -22,10 +27,20 @@ export const makeCustomCube = (pieces) => {
     return cube;
 };
 
+/**
+ * Function that sets the current cube to a custom cube
+ * @param {*} cube a custom cube
+ * @returns None
+git */
 export const setCustomcCube = (cube) => {
     currentCube = cube;
 };
 
+/**
+ * Function that creates a preset cube with the provided preset string
+ * @param {*} presetStr a string of length 54 that represents the the colors of the faces of the pieces
+ * @returns a custom cube with the provided face colors
+ */
 export const createCustomCube = (presetStr) => {
     // Validate the input preset string
     if (typeof presetStr !== "string") {
