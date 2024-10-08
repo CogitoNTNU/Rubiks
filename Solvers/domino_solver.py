@@ -1,13 +1,16 @@
-import magiccube
 from magiccube.cube import Cube
+from magiccube.optimizer.move_optimizer import MoveOptimizer
+import magiccube
+from magiccube.cube_base import Face
 
 
 class Domino_solver:
     def __init__(self, cube: Cube) -> None:
         self.cube = cube
         self.unscrambled = magiccube.Cube(
-        3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
-        
+            3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY"
+        )
+
     def check_edge(self, edge_pos: tuple):
         # Check if edge has "good" orientation
         """Doesn't work yet!"""
@@ -32,6 +35,14 @@ class Domino_solver:
 
     def orientationcount(self):
         # Count the number of good orientated edges and centers
-
         pass
 
+    def get_face_by_center(self, face: str):
+        face = self.cube.get_face(Face[face])
+        ans = "".join("".join(str(color) for color in row) for row in face)
+        ans = "".join([ans[x] for x in range(6, len(ans), 7)])
+        return ans
+
+    def color_count_on_face(self, color: str = "Y", face: str = "L"):
+        f = self.get_face_by_center(face)
+        return sum([1 for x in range(1, 9, 2) if f[x] == color])

@@ -106,7 +106,7 @@ class AlgSolver:
         # Finds where a piece from a coordinate belongs based on its name
         return self.unscrambled.find_piece(piece)[0]
 
-    def get_unformated_string(self) -> str:
+    def get_unformated_string(self):
         cube = self.cube
         faces = [
             cube.get_face(Face.U),  
@@ -122,7 +122,7 @@ class AlgSolver:
         )
         ans = [result[x] for x in range(6, len(result), 7)]
         ans = "".join(ans)
-        return ans
+        return ans #Returnerer kver blokk på samme format som når man initialiserer ei kube
 
     def getalg(self, letter: str):
         """

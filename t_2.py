@@ -1,5 +1,6 @@
 import magiccube
 from Solvers.alg_solver import *
+from Solvers.domino_solver import *
 
 
 # initialize cube
@@ -8,10 +9,10 @@ cube = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY
 
 # cube.rotate("R U R2 F' R U R U' R' F R U' R' ")
 
-cube.scramble()
 # print(cube)
 algsolver = AlgSolver(cube)
 print(algsolver.get_home_by_name("RWG"))
+cube.scramble()
 print(cube)
 
 # letters = str(algsolver.get_color_by_coords((2, 2, 2)))
@@ -30,4 +31,8 @@ print(cube)
 #     cube.rotate(algsolver.getalg(algsolver.getalgfromcolor(letters)))
 
 
-print(algsolver.get_unformated_string())
+# print(algsolver.get_unformated_string())
+# Default: kvite og gole på venstre face
+
+dom = Domino_solver(cube)
+print(dom.color_count_on_face("Y", "L"))
