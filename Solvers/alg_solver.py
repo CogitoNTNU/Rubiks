@@ -95,7 +95,8 @@ class AlgSolver:
         return self.cube.find_piece(piece)
 
     def get_home_by_coords(self, coords):
-        # Finds where a piece from a coordinate belongs based on its coords
+        if coords == ((1, 1, 1)):
+            return (1, 1, 1)
         return self.unscrambled.find_piece(str(self.cube.get_piece(coords)))[0]
 
     def get_color_by_coords(self, coords):
@@ -106,19 +107,22 @@ class AlgSolver:
         return self.unscrambled.find_piece(piece)[0]
 
     def get_unformated_string(self) -> str:
-        # gets a unformated string of the cube
-        pass
-
-    def reversealg(self, alg: str):
-        # reverses the given algorithm
-        alg_list = alg.split(" ")
-        alg_list.reverse()
-        for i in range(len(alg_list)):
-            if "'" in alg_list[i]:
-                alg_list[i] = alg_list[i].replace("'", "")
-            elif "2" not in alg_list[i] and len(alg_list) > 0:
-                alg_list[i] = alg_list[i] + "'"
-        return " ".join(alg_list)
+        cube = self.cube
+        faces = [
+            cube.get_face(Face.U),  
+            cube.get_face(Face.L),  
+            cube.get_face(Face.F),  
+            cube.get_face(Face.R),  
+            cube.get_face(Face.B),  
+            cube.get_face(Face.D),  
+        ]
+        result = "".join(
+            "".join("".join(str(color) for color in row) for row in face)
+            for face in faces
+        )
+        ans = [result[x] for x in range(6, len(result), 7)]
+        ans = "".join(ans)
+        return ans
 
     def getalg(self, letter: str):
         """
