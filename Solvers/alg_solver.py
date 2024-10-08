@@ -24,7 +24,7 @@ letters = {
     "S": "D F'",
     "T": "R",
     "U": "D",
-    "V": " ",
+    "V": "R R'",
     "W": "D'",
     "X": "D2",
     "a": "M2",
@@ -124,6 +124,17 @@ class AlgSolver:
         ans = "".join(ans)
         return ans  # Returnerer kver blokk på samme format som når man initialiserer ei kube
 
+    def reversealg(self, alg: str):
+        # reverses the given algorithm
+        alg_list = alg.split(" ")
+        alg_list.reverse()
+        for i in range(len(alg_list)):
+            if "'" in alg_list[i]:
+                alg_list[i] = alg_list[i].replace("'", "")
+            elif "2" not in alg_list[i] and len(alg_list) > 0:
+                alg_list[i] = alg_list[i] + "'"
+        return " ".join(alg_list)
+
     def getalg(self, letter: str):
         """
         Finds an algorithm to solve case Based on what letter is given.
@@ -222,7 +233,9 @@ class AlgSolver:
         # breaks the cycle if the buffer returns to home.
         for _, value in algs_from_color.items():
             if (
-                value[0] not in self.solution and value[1] not in self.solution
+                value[0] not in self.solution
+                and value[1] not in self.solution
+                and not value[0].islower()
             ) and "buffer" not in self.getalg(value[0]):
                 print(value[0], "cycle break")
                 self.cube.rotate(self.getalg(value[0]))
