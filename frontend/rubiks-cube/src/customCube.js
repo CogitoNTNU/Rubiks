@@ -8,7 +8,7 @@ export var currentCube = [];
  * @param {*} pieces an array of object literal pieces that make up the cube
  * @returns a custom cube with the provided pieces
  */
-export const makeCustomCube = (pieces) => {
+const makeCustomCube = (pieces) => {
     // Validate the input pieces
     if (!Array.isArray(pieces)) {
         throw new Error("Invalid input: pieces should be an array");
