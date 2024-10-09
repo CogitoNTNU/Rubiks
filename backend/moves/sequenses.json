@@ -1,0 +1,32 @@
+{
+    "ThreeByThree": {
+        "X": "R M' L'",
+        "Y": "U E' D'",
+        "Z": "F S B'",
+        "u": "U E'",
+        "f": "F S",
+        "l": "L M",
+        "d": "D E",
+        "b": "B S'",
+        "r": "R M'",
+        "sune": "R U R' U R U2 R'",
+        "anti-sune": "R U2 R' U' R U' R'",
+        "sledge": "R' F R F'",
+        "hedge": "F R' F' R",
+        "sexy": "R U R' U'",
+        "r-sexy": "U R U' R'",
+        "ua-perm": "M2 U M U2 M' U M2",
+        "ub-perm": "M2 U' M U2 M' U' M2",
+        "t-perm": "sexy R' F R2 U' R' U' R U R' F'",
+        "ja-perm": "R' U L' U2 R U' R' U2 R L",
+        "jb-perm": "R U R' F' sexy R' F R2 U' R' U'",
+        "h-perm": "M2 U' M2 U2 M2 U' M2",
+        "key": "sexy sledge",
+        "bottlecap": "f sexy2 f'",
+        "t": "f sexy f'",
+        "checkerboard": "M2 E2 S2",
+        "z-perm": "M' U' M2 U' M2 U' M' U2 M2 U",
+        "T-perm": "R U R' U' R' F R2 U' R' U' R U R' F'",
+        "LO": "R U2 D' B D'"
+    }
+}
