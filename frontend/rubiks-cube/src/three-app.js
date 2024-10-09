@@ -6,6 +6,7 @@ import * as U from "./logic/utils"
 // import rotateSlice from "./control"
 // import * as CL from "./logic/coordsLists"
 import * as CC from "./customCube"
+import * as CM from "./customMoves"
 
 const url = new URL(document.location)
 const searchParams = url.searchParams
@@ -271,8 +272,7 @@ const threeApp = () => {
     resetUiPieces(globals.cube)
 
     // Generate scramble moves
-    const perCubeSizeData = L.PER_CUBE_SIZE_DATA.get(globals.cubeSize)
-    const testMoves = [perCubeSizeData.moves[1], perCubeSizeData.moves[2], perCubeSizeData.moves[3], perCubeSizeData.moves[4], perCubeSizeData.moves[5], perCubeSizeData.moves[6]]
+    const testMoves = CM.getMoves([1, 2, 3, 4, 5, 6])
 
     console.log(`random moves: ${testMoves.map(move => move.id).join(" ")}`)
 
