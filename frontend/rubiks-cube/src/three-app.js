@@ -278,9 +278,6 @@ const threeApp = () => {
 
     console.log(globals.cube)
 
-    // Update global cube state
-    globals.cube = L.makeMoves(testMoves, L.getSolvedCube(globals.cubeSize))
-
     // Animate the scramble moves
     setTimeout(animateMoves, BEFORE_DELAY, testMoves)
 
