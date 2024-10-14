@@ -182,7 +182,7 @@ def do_sequence(moves: str) -> str:
     return simplified_sequence
 
 
-def get_mapped_sequence(moves: str) -> list[str]:
+def get_mapped_sequence(moves: str) -> list[int]:
     """
     Retrieves the mapped sequence of moves based on the given sequence.
 
@@ -190,6 +190,6 @@ def get_mapped_sequence(moves: str) -> list[str]:
         moves (str): The sequence of moves to map.
 
     Returns:
-        str: The mapped sequence of moves.
+        list[int]: The mapped sequence of moves.
     """
     return [move_map[move] for move in moves.split()]

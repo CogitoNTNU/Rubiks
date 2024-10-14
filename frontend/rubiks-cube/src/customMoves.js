@@ -2,7 +2,11 @@ import * as L from "./logic"
 
 import { globals } from "./three-app"
 
-
+/**
+ * Takes in a list of integers and returns a list of moves
+ * @param {Int[]} moves
+ * @returns {Array} moveList
+ */
 export const getMoves = (moves) => {
     // Validate the input 
     if (!Array.isArray(moves)) {
