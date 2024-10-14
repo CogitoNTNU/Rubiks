@@ -377,9 +377,8 @@ const threeApp = () => {
 
     globals.clock = new THREE.Clock()
     globals.animationMixer = new THREE.AnimationMixer()
-
-    globals.cube = L.getSolvedCube(globals.cubeSize)
     globals.pieceGeometry = await loadGeometry("/rubiks-cube/cube-bevelled.glb")
+
     setCube()
     createUiPieces()
 
