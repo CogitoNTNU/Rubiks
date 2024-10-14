@@ -270,6 +270,15 @@ const threeApp = () => {
   }
 
   /**
+   * Function that resets the cube to the setCube state
+   */
+  const resetCube = () => {
+    setCube()
+    globals.puzzleGroup.clear()
+    createUiPieces(globals.cube)
+  }
+
+  /**
    * Function that is called when the cube size is changed
    */
   const cubeSizeChanged = () => {
