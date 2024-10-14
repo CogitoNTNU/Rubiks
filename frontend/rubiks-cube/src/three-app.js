@@ -101,7 +101,7 @@ const threeApp = () => {
   globals.animationSpeed = queryParamInt("animationSpeed", 100, 1000, 750)
   // const NUM_RANDOM_MOVES = queryParamInt("randomMoves", 10, 100, 25)
   const BEFORE_DELAY = queryParamInt("beforeDelay", 0, 5000, 2000)
-  const AFTER_DELAY = queryParamInt("afterDelay", 0, 5000, 2000)
+  // const AFTER_DELAY = queryParamInt("afterDelay", 0, 5000, 2000)
 
   const loadGeometry = url =>
     new Promise((resolve, reject) => {
@@ -208,13 +208,14 @@ const threeApp = () => {
   const animateMoves = (moves, nextMoveIndex = 0) => {
 
     if (globals.cubeSizeChanged) {
-      return setTimeout(solution, 0)
+      cubeSizeChanged()
+      return solution()
     }
 
     const move = moves[nextMoveIndex]
 
     if (!move) {
-      return setTimeout(solution, AFTER_DELAY)
+      return solution()
     }
 
     const pieces = L.getPieces(globals.cube, move.coordsList)
@@ -253,20 +254,6 @@ const threeApp = () => {
   // }
 
   const solution = () => {
-
-    if (globals.cubeSizeChanged) {
-      globals.cubeSizeChanged = false
-      globals.puzzleGroup.clear()
-      globals.animationGroup.clear()
-      globals.controls.reset()
-      const cameraX = globals.cubeSize + 1
-      const cameraY = globals.cubeSize + 1
-      const cameraZ = globals.cubeSize * 4
-      globals.camera.position.set(cameraX, cameraY, cameraZ)
-      globals.camera.lookAt(new THREE.Vector3(0, 0, 0))
-      setCube()
-      createUiPieces()
-    }
     // Reset the cube to the solved state
     globals.cube = L.getSolvedCube(globals.cubeSize)
     resetUiPieces(globals.cube)
@@ -288,6 +275,23 @@ const threeApp = () => {
    */
   const setCube = () => {
     globals.cube = CC.customCubes.normal
+  }
+
+  /**
+   * Function that is called when the cube size is changed
+   */
+  const cubeSizeChanged = () => {
+    globals.cubeSizeChanged = false
+    globals.puzzleGroup.clear()
+    globals.animationGroup.clear()
+    globals.controls.reset()
+    const cameraX = globals.cubeSize + 1
+    const cameraY = globals.cubeSize + 1
+    const cameraZ = globals.cubeSize * 4
+    globals.camera.position.set(cameraX, cameraY, cameraZ)
+    globals.camera.lookAt(new THREE.Vector3(0, 0, 0))
+    setCube()
+    createUiPieces()
   }
 
   const init = async () => {
