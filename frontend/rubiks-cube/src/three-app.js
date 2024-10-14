@@ -206,42 +206,54 @@ const threeApp = () => {
   }
 
   const animateMoves = (moves, nextMoveIndex = 0) => {
-
-    if (globals.cubeSizeChanged) {
-      cubeSizeChanged()
-      return controller()
-    }
-
-    const move = moves[nextMoveIndex]
-
-    if (!move) {
-      return controller()
-    }
-
-    const pieces = L.getPieces(globals.cube, move.coordsList)
-    const uiPieces = pieces.map(findUiPiece)
-    movePiecesBetweenGroups(uiPieces, globals.puzzleGroup, globals.animationGroup)
-
-    const onFinished = () => {
-      globals.animationMixer.removeEventListener("finished", onFinished)
-      movePiecesBetweenGroups(uiPieces, globals.animationGroup, globals.puzzleGroup)
-      globals.cube = move.makeMove(globals.cube)
-      const rotationMatrix3 = move.rotationMatrix3
-      const rotationMatrix4 = makeRotationMatrix4(rotationMatrix3)
-      for (const uiPiece of uiPieces) {
-        uiPiece.applyMatrix4(rotationMatrix4)
+    return new Promise((resolve, reject) => {
+      // Exception handling: if cube size has changed, handle it and exit early
+      if (globals.cubeSizeChanged) {
+        cubeSizeChanged()
+        return resolve() // Early exit but still resolve the promise
       }
-      animateMoves(moves, nextMoveIndex + 1)
-    }
 
-    globals.animationMixer.addEventListener("finished", onFinished)
+      const move = moves[nextMoveIndex]
 
-    const animationClip = createAnimationClip(move)
-    const clipAction = globals.animationMixer.clipAction(
-      animationClip,
-      globals.animationGroup)
-    clipAction.setLoop(THREE.LoopOnce)
-    clipAction.play()
+      // If there are no more moves, resolve the promise and exit
+      if (!move) {
+        return resolve() // Base case: all moves are done
+      }
+
+      // Get the pieces and move them to the animation group
+      const pieces = L.getPieces(globals.cube, move.coordsList)
+      const uiPieces = pieces.map(findUiPiece)
+      movePiecesBetweenGroups(uiPieces, globals.puzzleGroup, globals.animationGroup)
+
+      // Define the callback to handle what happens when the animation is finished
+      const onFinished = () => {
+        // Clean up after the animation and update the cube
+        globals.animationMixer.removeEventListener("finished", onFinished)
+        movePiecesBetweenGroups(uiPieces, globals.animationGroup, globals.puzzleGroup)
+        globals.cube = move.makeMove(globals.cube)
+        const rotationMatrix3 = move.rotationMatrix3
+        const rotationMatrix4 = makeRotationMatrix4(rotationMatrix3)
+
+        // Apply the transformation matrix to the pieces
+        for (const uiPiece of uiPieces) {
+          uiPiece.applyMatrix4(rotationMatrix4)
+        }
+
+        // Recursively call the function for the next move and chain the Promise
+        animateMoves(moves, nextMoveIndex + 1).then(resolve) // Resolve when the recursive call finishes
+      }
+
+      // Set up the event listener for when the animation finishes
+      globals.animationMixer.addEventListener("finished", onFinished)
+
+      // Create and play the animation clip for the current move
+      const animationClip = createAnimationClip(move)
+      const clipAction = globals.animationMixer.clipAction(
+        animationClip,
+        globals.animationGroup)
+      clipAction.setLoop(THREE.LoopOnce)
+      clipAction.play()
+    })
   }
 
   // const showSolutionByCheating = randomMoves => {
@@ -298,16 +310,17 @@ const threeApp = () => {
   /**
    * Main function that controls the cube
    */
-  const controller = () => {
-    // Generate scramble moves
-    const testMoves = CM.getMoves([1, 2, 3, 4, 5, 6])
-    const randomMoves = CM.getMoves([Math.round(Math.random() * 26)])
-    const moves = randomMoves
+  const controller = async () => {
+    while (true) {
+      const testMoves = CM.getMoves([1, 2, 3, 4, 5, 6])
+      const randomMoves = CM.getMoves([Math.round(Math.random() * 26)])
+      const moves = randomMoves
 
-    console.log(`moves: ${moves.map(move => move.id).join(" ")}`)
+      console.log(`moves: ${moves.map(move => move.id).join(" ")}`)
 
-    // Animate the moves
-    animateMoves(moves)
+      // Animate the moves
+      await animateMoves(moves)
+    }
   }
 
   const init = async () => {
@@ -387,7 +400,7 @@ const threeApp = () => {
     // innitScramble()
 
     animate()
-    controller()
+    await controller()
   }
 
   return {
