@@ -100,7 +100,7 @@ const threeApp = () => {
 
   globals.animationSpeed = queryParamInt("animationSpeed", 100, 1000, 750)
   // const NUM_RANDOM_MOVES = queryParamInt("randomMoves", 10, 100, 25)
-  const BEFORE_DELAY = queryParamInt("beforeDelay", 0, 5000, 2000)
+  // const BEFORE_DELAY = queryParamInt("beforeDelay", 0, 5000, 2000)
   // const AFTER_DELAY = queryParamInt("afterDelay", 0, 5000, 2000)
 
   const loadGeometry = url =>
@@ -209,13 +209,13 @@ const threeApp = () => {
 
     if (globals.cubeSizeChanged) {
       cubeSizeChanged()
-      return solution()
+      return controller()
     }
 
     const move = moves[nextMoveIndex]
 
     if (!move) {
-      return solution()
+      return controller()
     }
 
     const pieces = L.getPieces(globals.cube, move.coordsList)
@@ -253,21 +253,13 @@ const threeApp = () => {
   //   animateMoves(solutionMoves)
   // }
 
+  /**
+   * Function that resets the cube to the solved state
+   */
   const solution = () => {
-    // Reset the cube to the solved state
     globals.cube = L.getSolvedCube(globals.cubeSize)
-    resetUiPieces(globals.cube)
-
-    // Generate scramble moves
-    const testMoves = CM.getMoves([1, 2, 3, 4, 5, 6])
-
-    console.log(`random moves: ${testMoves.map(move => move.id).join(" ")}`)
-
-    console.log(globals.cube)
-
-    // Animate the scramble moves
-    setTimeout(animateMoves, BEFORE_DELAY, testMoves)
-
+    globals.puzzleGroup.clear()
+    createUiPieces(globals.cube)
   }
 
   /**
@@ -292,6 +284,21 @@ const threeApp = () => {
     globals.camera.lookAt(new THREE.Vector3(0, 0, 0))
     setCube()
     createUiPieces()
+  }
+
+  /**
+   * Main function that controls the cube
+   */
+  const controller = () => {
+    // Generate scramble moves
+    const testMoves = CM.getMoves([1, 2, 3, 4, 5, 6])
+    const randomMoves = CM.getMoves([Math.round(Math.random() * 26)])
+    const moves = randomMoves
+
+    console.log(`moves: ${moves.map(move => move.id).join(" ")}`)
+
+    // Animate the moves
+    animateMoves(moves)
   }
 
   const init = async () => {
@@ -372,7 +379,7 @@ const threeApp = () => {
     // innitScramble()
 
     animate()
-    solution()
+    controller()
   }
 
   return {
