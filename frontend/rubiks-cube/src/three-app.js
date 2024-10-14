@@ -264,7 +264,7 @@ const threeApp = () => {
       const cameraZ = globals.cubeSize * 4
       globals.camera.position.set(cameraX, cameraY, cameraZ)
       globals.camera.lookAt(new THREE.Vector3(0, 0, 0))
-      globals.cube = CC.currentCube
+      setCube()
       createUiPieces()
     }
     // Reset the cube to the solved state
@@ -281,6 +281,13 @@ const threeApp = () => {
     // Animate the scramble moves
     setTimeout(animateMoves, BEFORE_DELAY, testMoves)
 
+  }
+
+  /**
+   * Function that sets the cube to the default state
+   */
+  const setCube = () => {
+    globals.cube = CC.customCubes.normal
   }
 
   const init = async () => {
@@ -353,8 +360,7 @@ const threeApp = () => {
 
     globals.cube = L.getSolvedCube(globals.cubeSize)
     globals.pieceGeometry = await loadGeometry("/rubiks-cube/cube-bevelled.glb")
-    CC.setCustomcCube(CC.customCubes.normal)
-    globals.cube = CC.currentCube
+    setCube()
     createUiPieces()
 
     // initialized scrambled state for api

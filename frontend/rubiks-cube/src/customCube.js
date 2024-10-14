@@ -1,8 +1,6 @@
 import * as R from "./logic/rotations"
 
 
-export var currentCube = [];
-
 /**
  * Function that creates a custom cube with the provided pieces
  * @param {*} pieces an array of object literal pieces that make up the cube
@@ -25,15 +23,6 @@ const makeCustomCube = (pieces) => {
     }));
 
     return cube;
-};
-
-/**
- * Function that sets the current cube to a custom cube
- * @param {*} cube a custom cube
- * @returns None
-git */
-export const setCustomcCube = (cube) => {
-    currentCube = cube;
 };
 
 /**
