@@ -8,6 +8,8 @@ import * as U from "./logic/utils"
 import * as CC from "./customCube"
 import * as CM from "./customMoves"
 
+import axios from "axios"
+
 const url = new URL(document.location)
 const searchParams = url.searchParams
 
@@ -277,15 +279,21 @@ const threeApp = () => {
   /**
    * Function that sets the cube to the default state
    */
-  const setCube = () => {
-    globals.cube = CC.customCubes.normal
+  const setCube = async () => {
+    globals.cube = CC.createCustomCube(
+      await axios.get("http://localhost:8000/cube")
+        .then(response => {
+          return response.data.cube
+        })
+    )
+
   }
 
   /**
    * Function that resets the cube to the setCube state
    */
-  const resetCube = () => {
-    setCube()
+  const resetCube = async () => {
+    await setCube()
     globals.puzzleGroup.clear()
     createUiPieces(globals.cube)
   }
@@ -312,14 +320,23 @@ const threeApp = () => {
    */
   const controller = async () => {
     while (true) {
-      const testMoves = CM.getMoves([1, 2, 3, 4, 5, 6])
-      const randomMoves = CM.getMoves([Math.round(Math.random() * 26)])
-      const moves = randomMoves
+      const movesUrl = "http://localhost:8000/moves"
+
+      const moves = CM.getMoves(
+        await axios.get(movesUrl)
+          .then(response => {
+            return response.data.moves
+          })
+      )
+      console.log(moves)
 
       console.log(`moves: ${moves.map(move => move.id).join(" ")}`)
 
       // Animate the moves
       await animateMoves(moves)
+
+      // Reset the cube
+      await resetCube()
     }
   }
 
@@ -392,7 +409,7 @@ const threeApp = () => {
     globals.animationMixer = new THREE.AnimationMixer()
     globals.pieceGeometry = await loadGeometry("/rubiks-cube/cube-bevelled.glb")
 
-    setCube()
+    await setCube()
     createUiPieces()
 
     // initialized scrambled state for api
