@@ -9,9 +9,11 @@ cube2 = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYY
 cube3 = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
 
 
-cube1.rotate("R U R2 F' R U R U' R' F R U' R' ")
+# cube.rotate("R U R2 F' R U R U' R' F R U' R' ")
+print(cube.get_all_pieces)
 cube.scramble()
 print(cube)
+
 algSolver = AlgSolver(cube)
 
 print(algSolver.get_home_by_coords((2, 2, 2)))
