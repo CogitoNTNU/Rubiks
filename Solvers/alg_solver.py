@@ -299,8 +299,10 @@ class AlgSolver:
             self.solution.append(color_str[0])
 
     def solve(self) -> str:
-        # TODO: put everything together
-        return ""
+        # solves the cube by using a blind method
+        self.solveedges()
+        self.solvecorners()
+        return " ".join(self.solution)
 
 
 # ________________________________________________________________________________________
