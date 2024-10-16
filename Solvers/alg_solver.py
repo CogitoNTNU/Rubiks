@@ -311,10 +311,9 @@ class AlgSolver:
 
 # ________________________________________________________________________________________
 if __name__ == "__main__":
-    c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-
+    c = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
     solver = AlgSolver(c)
-    solver.solve()
+    print(solver.ligma())
     # print("DB")
 
 """Stdout Cube Print implementation"""
