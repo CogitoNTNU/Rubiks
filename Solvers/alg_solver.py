@@ -304,6 +304,10 @@ class AlgSolver:
         self.solvecorners()
         return " ".join(self.solution)
 
+    def ligma(self) -> str:
+        # what is ligma?
+        return "balls"
+
 
 # ________________________________________________________________________________________
 if __name__ == "__main__":
