@@ -3,7 +3,7 @@ import re
 
 import portalocker
 
-with open(r"backend\moves\sequenses.json", "r", encoding="UTF-8") as f:
+with open(r"moves/sequenses.json", "r", encoding="UTF-8") as f:
     portalocker.lock(f, portalocker.LOCK_SH)
     sequence_map: dict[str, str] = json.load(f)["ThreeByThree"]
     portalocker.unlock(f)
@@ -89,6 +89,7 @@ def simplify_sequence(seq: str) -> str:
     # fmt: on
     return seq.strip()
 
+
 def reverse_sequence(moves: str) -> str:
     """
     Reverses the sequence of moves in a Rubik's Cube algorithm.
@@ -106,6 +107,7 @@ def reverse_sequence(moves: str) -> str:
             for move in moves.split()[::-1]
         ]
     )
+
 
 def get_move(move: str) -> str:
     # Extract repeat part
@@ -135,9 +137,7 @@ def get_sequence(sequence_name: str) -> str:
     """
 
     # Extract repeat part
-    repeat = (
-        int(match.group()) if (match := re.search(r"\d+", sequence_name)) else 1
-    )
+    repeat = int(match.group()) if (match := re.search(r"\d+", sequence_name)) else 1
     # Extract sequence part
     sequence = sequence_map[
         re.match(
@@ -150,7 +150,7 @@ def get_sequence(sequence_name: str) -> str:
         sequence = reverse_sequence(sequence)
 
     # Return sequence and repetitions
-    return sequence*repeat
+    return sequence * repeat
 
 
 def do_sequence(moves: str) -> str:
@@ -163,9 +163,9 @@ def do_sequence(moves: str) -> str:
     move_list = ""
 
     for move in moves.split(" "):
-        print(re.match(
-            "|".join([r"^" + key + r"\d*[']?$" for key in sequence_map]), move
-        ))
+        print(
+            re.match("|".join([r"^" + key + r"\d*[']?$" for key in sequence_map]), move)
+        )
 
         # Basic moves
         if re.match(r"^[LMRUEDFSB]\d*[']?$", move):
@@ -178,7 +178,7 @@ def do_sequence(moves: str) -> str:
             move_list += do_sequence(get_sequence(move))
 
         move_list += " "
-    simplified_sequence=simplify_sequence(move_list)
+    simplified_sequence = simplify_sequence(move_list)
     return simplified_sequence
 
 
