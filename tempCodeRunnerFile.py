@@ -1,12 +1,3 @@
-colors = self.get_colors_by_position()
-
-
-# dom = Domino_solver(cube)
-# print(dom.mid_4_good())
-# print(f"SWAPPED {"-"*100}")
-# print(swapped)
-
-# domswapped = Domino_solver(swapped)
-# print(domswapped.mid_4_good())
-
-
+print(cube1)
+# print(algSolver1.get_color_by_coords((0, 0, 0)))
+# print(algSolver1.get_color_by_coords((2, 2, 2)))
