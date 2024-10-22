@@ -15,6 +15,35 @@ class Domino_solver:
         )
         self.value = 0
 
+    def check_corners(self):
+        check_top_and_bottom_face_orientation = []
+
+        # Corner coords specified in clockwise order
+        top_corners = [(0, 2, 0), (2, 2, 0), (2, 2, 2), (0, 2, 2)]
+        bottom_corners = [(0, 0, 0), (2, 0, 0), (0, 2, 2), (0, 0, 2)]
+        for corner_coords in top_corners:
+            corner_piece = self.cube.get_piece(corner_coords)
+            print(f"Corner piece at {corner_coords}: {corner_piece}")
+
+            # Check which of the corner pieces (white/yellow) are good or bad
+            colors = corner_piece.get_piece_colors_str()[1]
+            if "W" == colors or "Y" == colors:
+                check_top_and_bottom_face_orientation.append(True)
+            else:
+                check_top_and_bottom_face_orientation.append(False)
+
+        for corner_coords in bottom_corners:
+            corner_piece = self.cube.get_piece(corner_coords)
+            print(f"Corner piece at {corner_coords}: {corner_piece}")
+
+            # Check which of the corner pieces (white/yellow) are good or bad
+            colors = corner_piece.get_piece_colors_str()[1]
+            if "W" == colors or "Y" == colors:
+                check_top_and_bottom_face_orientation.append(True)
+            else:
+                check_top_and_bottom_face_orientation.append(False)
+        return check_top_and_bottom_face_orientation
+
     def check_edge(self, edge_pos: tuple):
         # Check if edge has "good" orientation
         """Doesn't work yet!"""
@@ -41,7 +70,7 @@ class Domino_solver:
         # Count the number of good orientated edges and centers
         pass
 
-    def get_face_by_center(self, face: str):                        
+    def get_face_by_center(self, face: str):
         face = self.cube.get_face(Face[face])
         ans = "".join("".join(str(color) for color in row) for row in face)
         ans = "".join([ans[x] for x in range(6, len(ans), 7)])
@@ -53,7 +82,7 @@ class Domino_solver:
 
     def color_corner_count_on_face(self, color: str = "Y", face: str = "L"):
         f = self.get_face_by_center(face)
-        return sum([1 for x in range(0, 9, 2) if f[x] == color and x!=4])
+        return sum([1 for x in range(0, 9, 2) if f[x] == color and x != 4])
 
     def update_value(self, move):
         pass
@@ -73,7 +102,7 @@ class Domino_solver:
         colors = ["OG", "GR", "RB", "BO"]
         for i in range(4):
             cur = l[i]
-            if(AlgSolver(self.cube).findpiece(colors[i])):
+            if AlgSolver(self.cube).findpiece(colors[i]):
                 pass
 
         # right/left slice -> se på fargen som peker "ut"
