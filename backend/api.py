@@ -1,14 +1,14 @@
 from typing import List
 
-import backend.moves.sequence as m
+import magiccube
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from magiccube.cube import Cube
 from pydantic import BaseModel
 
 # cube related imports
+import backend.moves.sequence as m
 from Solvers.alg_solver import *
-from magiccube.cube import Cube
-import magiccube
 
 app = FastAPI()
 
@@ -30,7 +30,7 @@ def read_root():
 
 # scan cube state
 @app.post("/scan")
-async def scan_cube(cube_state: str):
+async def scan_cube():
     # global cube
     # cube = magiccube.Cube(3, cube_state)
     # return {"cube": cube_state}
@@ -44,18 +44,10 @@ async def scan_cube(cube_state: str):
 
 class CubeModel(BaseModel):
     cube_str: str
-
-    def __init__(self):
-        global cube
-        self.cube_str = AlgSolver.get_cube_str(cube)
-
-
 # load scanned cube state
 @app.get("/cube", response_model=CubeModel)
 def read_cube() -> CubeModel:
-    cube = CubeModel()
-
-    return cube
+    return CubeModel(cube_str=AlgSolver.get_cube_str(cube))
 
 
 class Moves(BaseModel):
@@ -72,4 +64,4 @@ def solve_cube() -> Moves:
 
     # moves = Moves(moves=m.get_mapped_sequence(solution))
 
-    return {"moves": moves}
+    return moves

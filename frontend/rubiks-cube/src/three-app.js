@@ -280,10 +280,14 @@ const threeApp = () => {
    * Function that sets the cube to the default state
    */
   const setCube = async () => {
+    await axios.post("http://localhost:8000/scan")
+      .then(response => {
+        console.log(response.data.cube)
+      })
     globals.cube = CC.createCustomCube(
       await axios.get("http://localhost:8000/cube")
         .then(response => {
-          return response.data.cube
+          return response.data.cube_str
         })
     )
 
