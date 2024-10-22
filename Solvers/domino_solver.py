@@ -20,7 +20,7 @@ class Domino_solver:
 
         # Corner coords specified in clockwise order
         top_corners = [(0, 2, 0), (2, 2, 0), (2, 2, 2), (0, 2, 2)]
-        bottom_corners = [(0, 0, 0), (2, 0, 0), (0, 2, 2), (0, 0, 2)]
+        bottom_corners = [(0, 0, 0), (2, 0, 0), (2, 0, 2), (0, 0, 2)]
         for corner_coords in top_corners:
             corner_piece = self.cube.get_piece(corner_coords)
             print(f"Corner piece at {corner_coords}: {corner_piece}")
