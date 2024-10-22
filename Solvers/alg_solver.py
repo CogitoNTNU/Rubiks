@@ -302,7 +302,7 @@ class AlgSolver:
         # solves the cube by using a blind method
         self.solveedges()
         self.solvecorners()
-        return " ".join(self.solution)
+        return " ".join(self.getalgsbystr(self.solution))
 
     def ligma(self) -> str:
         # what is ligma?

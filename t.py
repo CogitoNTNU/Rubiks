@@ -4,11 +4,17 @@ import numpy as np
 
 
 # initialize cube
-cube = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGRGGGRRRGRRRRRBBBBBBBBBYYYYYYYYY")
+cube = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
 cube1 = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBYYYYYYYBYY")
 cube2 = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
 cube3 = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
 
+print(cube)
+cube.scramble()
+
+algSolver = AlgSolver(cube).solve()
+print(cube)
+print(algSolver)
 
 # cube.rotate("R U R2 F' R U R U' R' F R U' R' ")
 
