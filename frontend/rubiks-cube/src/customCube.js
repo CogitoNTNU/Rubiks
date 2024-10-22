@@ -35,7 +35,7 @@ export const createCustomCube = (presetStr) => {
     if (typeof presetStr !== "string") {
         throw new Error("Invalid input: presetStr should be a string");
     } else if (presetStr.length !== 54) {
-        throw new Error("Invalid input: presetStr should be a string of length 72");
+        throw new Error("Invalid input: presetStr should be a string of length 54");
     }
 
     // Modify the preset string to work with the current colornames
