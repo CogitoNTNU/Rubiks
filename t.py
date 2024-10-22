@@ -10,20 +10,11 @@ cube3 = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYY
 
 
 # cube.rotate("R U R2 F' R U R U' R' F R U' R' ")
-print(cube.get_all_pieces)
+
 cube.scramble()
 print(cube)
 
 algSolver = AlgSolver(cube)
 
-print(algSolver.get_home_by_coords((2, 2, 2)))
-print(algSolver.get_color_by_coords((2, 2, 2)))
-
-
+print(algSolver.solve())
 print(algSolver.cube)
-algSolver.solveedges()
-print(algSolver.cube)
-print(algSolver.solution, len(algSolver.solution))
-algSolver.solvecorners()
-print(algSolver.cube)
-print(algSolver.solution, len(algSolver.solution))

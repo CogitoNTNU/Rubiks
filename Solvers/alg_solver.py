@@ -299,16 +299,21 @@ class AlgSolver:
             self.solution.append(color_str[0])
 
     def solve(self) -> str:
-        # TODO: put everything together
-        return ""
+        # solves the cube by using a blind method
+        self.solveedges()
+        self.solvecorners()
+        return " ".join(self.solution)
+
+    def ligma(self) -> str:
+        # what is ligma?
+        return "balls"
 
 
 # ________________________________________________________________________________________
 if __name__ == "__main__":
-    c = magiccube.Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-
+    c = magiccube.Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
     solver = AlgSolver(c)
-    solver.solve()
+    print(solver.ligma())
     # print("DB")
 
 """Stdout Cube Print implementation"""
