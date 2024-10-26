@@ -1,5 +1,5 @@
 from backend.Solvers.astar.node import Node
-
+from backend.utils import get_cube_str
 
 LEGAL_MOVES = {
     "EO": [
@@ -82,7 +82,7 @@ def reconstruct_path(node: Node) -> list[Node]:
     """
     TODO: Implement the successor function.
     This function should return a list of successors for a given state.
-    
+
 
     Args:
         state: The current state.
@@ -105,6 +105,22 @@ def is_goal(node: Node) -> bool:
         True if the state is a goal state, False otherwise.
     """
     raise NotImplementedError("Goal test function is not implemented.")
+
+
+def is_goal_solved_cube(node: Node) -> bool:
+    """
+    Args:
+        state: The current state.
+
+    Returns:
+        True if the state is a goal state, False otherwise.
+    """
+    cube_str = get_cube_str(node.state)
+
+    for i in range(0, 54, 9):
+        if cube_str[i : i + 9] != cube_str[i] * 9:
+            return False
+    return True
 
 
 def get_children(node: Node, moves: list[str]) -> list[Node]:
