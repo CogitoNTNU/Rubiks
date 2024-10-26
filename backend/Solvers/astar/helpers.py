@@ -16,9 +16,24 @@ def heuristic(node: Node) -> float:
 
 
 def get_successors(node: Node) -> list[Node]:
+    current_node = node
+    succesors = []
+    i = 0
+
+    while current_node.parent is not None:
+        step = (current_node.action, current_node.parent, i)
+        current_node = current_node.parent
+        succesors.append(step)
+        i += 1
+
+    step = (current_node.action, current_node.parent, i)
+
+    return succesors
+
     """
     TODO: Implement the successor function.
     This function should return a list of successors for a given state.
+    
 
     Args:
         state: The current state.
