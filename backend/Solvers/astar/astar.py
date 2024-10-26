@@ -1,6 +1,6 @@
 from typing import Any, Callable, Optional, Tuple, List
 
-from . import Node
+from backend.Solvers.astar.node import Node
 
 
 def ida_star(
