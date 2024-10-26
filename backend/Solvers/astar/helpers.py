@@ -88,14 +88,17 @@ def heuristic_solved(cube: Cube) -> float:
     # Checks how many faces are the same as the center
     cube = Domino_solver(cube)
 
-    faces = 0
+    sum = 0
 
-    colors = ["W", "Y", "R", "O", "G", "B"]
+    faces = ["L", "R", "D", "U", "B", "F"]
 
-    for color in colors:
-        faces += cube.get_face_by_center(color).count(color) - 1
+    for i in range(6):
+        face = cube.get_face_by_center(faces[i])
+        center_color = face[4]
+        face = face[:4] + face[5:]
+        sum += face.count(center_color)
 
-    return 48 - faces
+    return 48 - sum
 
 
 def reconstruct_path(node: Node) -> list[Node]:

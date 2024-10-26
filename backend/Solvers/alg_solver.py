@@ -161,7 +161,7 @@ class AlgSolver:
             algs += self.getalg(letter) + " "
         return algs
 
-    def getalgsbystr(self, letters)-> str:
+    def getalgsbystr(self, letters) -> str:
         # gets the algorithm for a list of letters
         algs = ""
         for letter in letters:
@@ -303,4 +303,3 @@ class AlgSolver:
         self.solveedges()
         self.solvecorners()
         return " ".join(self.getalgsbystr(self.solution))
-

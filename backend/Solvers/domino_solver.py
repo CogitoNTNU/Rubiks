@@ -1,6 +1,7 @@
 import magiccube
 from magiccube.cube import Cube
 from magiccube.cube_base import Face
+import numpy as np
 
 
 class Domino_solver:
