@@ -28,7 +28,7 @@ def reconstruct_path(node: Node) -> list[Node]:
 
     step = (current_node.action, current_node.parent, i)
     succesors.append(step)
-
+    succesors = succesors[::-1]
     return succesors
 
     """
