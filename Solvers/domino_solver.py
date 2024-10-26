@@ -8,7 +8,7 @@ from magiccube.cube_base import Face
 
 
 class Domino_solver:
-    
+
     def __init__(self, cube: Cube) -> None:
         self.cube = cube
         self.unscrambled = magiccube.Cube(
@@ -17,34 +17,21 @@ class Domino_solver:
         self.value = 0
 
     def check_corners(self):
-        check_top_and_bottom_face_orientation = []
-
-        # Corner coords specified in clockwise order
+        corner_orientation = np.zeros(8)
         top_corners = [(0, 2, 0), (2, 2, 0), (2, 2, 2), (0, 2, 2)]
-        bottom_corners = [(0, 0, 0), (2, 0, 0), (2, 0, 2), (0, 0, 2)]
-        for corner_coords in top_corners:
-            corner_piece = self.cube.get_piece(corner_coords)
-            print(f"Corner piece at {corner_coords}: {corner_piece}")
+        bottom_corners = [(0, 0, 2), (2, 0, 2), (2, 0, 0), (0, 0, 0)]
 
-            # Check which of the corner pieces (white/yellow) are good or bad
-            colors = corner_piece.get_piece_colors_str()[1]
-            if "W" == colors or "Y" == colors:
-                check_top_and_bottom_face_orientation.append(True)
-            else:
-                check_top_and_bottom_face_orientation.append(False)
+        for i in range(4):
+            current_corner_piece_top = self.cube.get_piece(top_corners[i])
+            current_corner_piece_bottom = self.cube.get_piece(bottom_corners[i])
 
-        for corner_coords in bottom_corners:
-            corner_piece = self.cube.get_piece(corner_coords)
-            print(f"Corner piece at {corner_coords}: {corner_piece}")
-
-            # Check which of the corner pieces (white/yellow) are good or bad
-            colors = corner_piece.get_piece_colors_str()[1]
-            if "W" == colors or "Y" == colors:
-                check_top_and_bottom_face_orientation.append(True)
-            else:
-                check_top_and_bottom_face_orientation.append(False)
-        return check_top_and_bottom_face_orientation
-        self.results = np.zeros(12)
+            current_color_top = current_corner_piece_top.get_piece_colors_str()[1]
+            current_color_bottom = current_corner_piece_bottom.get_piece_colors_str()[1]
+            if current_color_top in ["W", "Y"]:
+                corner_orientation[i] = 1
+            if current_color_bottom in ["W", "Y"]:
+                corner_orientation[i + 4] = 1
+        return corner_orientation
 
     def check_edge(self, edge_pos: tuple):
         # Check if edge has "good" orientation
@@ -73,7 +60,6 @@ class Domino_solver:
         pass
 
     def get_face_by_center(self, face: str):
-    def get_face_by_center(self, face: str):
         face = self.cube.get_face(Face[face])
         ans = "".join("".join(str(color) for color in row) for row in face)
         ans = "".join([ans[x] for x in range(6, len(ans), 7)])
@@ -98,14 +84,13 @@ class Domino_solver:
         # Check if the cube has good orientation
         pass
 
-    def get_edges(self, color: str = "Y", face: str = "L")->list:
+    def get_edges(self, color: str = "Y", face: str = "L") -> list:
         pass
-        
-            
+
     def check_edge_orientation(self, edge) -> bool:
-        if(edge[1]=="1"):
-        return False
-        
+        if edge[1] == "1":
+            return False
+
         pass
 
     """
@@ -124,36 +109,45 @@ class Domino_solver:
     Edge: (2, 2, 1), colors: RW
     }
     """
-    
-    #dei 4 i midten -> se om rett farge stikker ut
+
+    # dei 4 i midten -> se om rett farge stikker ut
     def check_all_edges(self):
 
-        up_or_low_edges = [(0,0,1), (0,2,1), (1,0,0), (1,0,2), (1,2,0), (1,2,2), (2,0,1), (2,2,1)]
-        mid_edges = [(0,1,0), (0,1,2), (2,1,0), (2,1,2)]
-        
+        up_or_low_edges = [
+            (0, 0, 1),
+            (0, 2, 1),
+            (1, 0, 0),
+            (1, 0, 2),
+            (1, 2, 0),
+            (1, 2, 2),
+            (2, 0, 1),
+            (2, 2, 1),
+        ]
+        mid_edges = [(0, 1, 0), (0, 1, 2), (2, 1, 0), (2, 1, 2)]
+
         for i in range(8):
             self.results[i] = self.check_edge_orientation(up_or_low_edges[i])
-       
+
         for i in range(4):
-            #self.results[i+8] = ("W" in self.get_home_by_coords(mid_edges(i)) or "Y" in self.get_home_by_coords(mid_edges(i)))
-            self.results[i+8] = check_mid_edges(mid_edges[i])
+            # self.results[i+8] = ("W" in self.get_home_by_coords(mid_edges(i)) or "Y" in self.get_home_by_coords(mid_edges(i)))
+            self.results[i + 8] = check_mid_edges(mid_edges[i])
         return self.results
-    #Rød/oransj kan ikkje på topp eller bunn, kvit/gul kan ikkje i midten og fargen må vere lik?
-    #kan ikkje ver kvite eller gule på r/l
 
-    def check_mid_edges(self, tuple: coords)->list:
-        ("W" in self.get_home_by_coords(mid_edges(i)) or "Y" in self.get_home_by_coords(mid_edges(i)))
-        # return [(check_edge_orientation(edge) for edge in edges)] (må fikse edges-lista)
+    # Rød/oransj kan ikkje på topp eller bunn, kvit/gul kan ikkje i midten og fargen må vere lik?
+    # kan ikkje ver kvite eller gule på r/l
 
+    # def check_mid_edges(self, tuple: coords)->list:
+    #     ("W" in self.get_home_by_coords(mid_edges(i)) or "Y" in self.get_home_by_coords(mid_edges(i)))
+    #     # return [(check_edge_orientation(edge) for edge in edges)] (må fikse edges-lista)
 
-    def color_edge_count_on_face(self, color: str = "Y", face: str = "L"):
-        f = self.get_face_by_center(face)
-        return sum([1 for x in range(1, 9, 2) if f[x] == color])
-            cur = l[i]
-            if AlgSolver(self.cube).findpiece(colors[i]):
-                pass
+    # def color_edge_count_on_face(self, color: str = "Y", face: str = "L"):
+    #     f = self.get_face_by_center(face)
+    #     return sum([1 for x in range(1, 9, 2) if f[x] == color])
+    #         cur = l[i]
+    #         if AlgSolver(self.cube).findpiece(colors[i]):
+    #             pass
 
-        # right/left slice -> se på fargen som peker "ut"
+    #     # right/left slice -> se på fargen som peker "ut"
 
-        print(AlgSolver(self.cube).findpiece("OG"))
-        return 1
+    #     print(AlgSolver(self.cube).findpiece("OG"))
+    #     return 1
