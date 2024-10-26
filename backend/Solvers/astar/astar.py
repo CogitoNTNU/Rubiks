@@ -1,6 +1,6 @@
-from typing import Any, Callable, Optional, Tuple, List
+from typing import Any, Callable, List, Optional, Tuple
 
-from . import Node
+from backend.Solvers.astar.node import Node
 
 
 def ida_star(
@@ -21,7 +21,16 @@ def ida_star(
     Returns:
         A list of actions to reach the goal, or None if no solution is found.
     """
-    raise NotImplementedError("IDA* function is not implemented.")
+    threshold = heuristic_fn(initial_state)
+    while True:
+        temp_threshold, path = search(
+            initial_state, 0, threshold, heuristic_fn, get_successors_fn, is_goal_fn
+        )
+        if path is not None:
+            return path
+        if temp_threshold == float("inf"):
+            return None
+        threshold = temp_threshold
 
 
 def search(
@@ -48,4 +57,24 @@ def search(
             - The minimum f-value that exceeded the threshold, or float('inf') if no solution.
             - The path to the goal as a list of actions, or None if not found.
     """
-    raise NotImplementedError("Search function is not implemented.")
+    f = g + heuristic_fn(node)
+    if f > threshold:
+        return f, None
+    if is_goal_fn(node):
+        return f, []
+    min_threshold = float("inf")
+    for successor in get_successors_fn(node):
+        successor_node, action, step_cost = successor
+        temp_threshold, temp_path = search(
+            successor_node,
+            g + step_cost,
+            threshold,
+            heuristic_fn,
+            get_successors_fn,
+            is_goal_fn,
+        )
+        if temp_path is not None:
+            return temp_threshold, [action] + temp_path
+        if temp_threshold < min_threshold:
+            min_threshold = temp_threshold
+    return min_threshold, None
