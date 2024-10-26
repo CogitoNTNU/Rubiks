@@ -4,8 +4,8 @@ from backend.utils import get_cube_str
 from magiccube import Cube
 from backend.Solvers.astar.helpers import (
     is_goal_solved_cube,
-    is_goal_domino_reduction,
-    is_goal_oriented_edges,
+    is_goal_dr,
+    is_goal_eo,
 )
 
 
@@ -28,28 +28,26 @@ def create_scrambled_node():
 def test_is_goal_oriented_edges_with_solved_cube():
     node = create_solved_node()
     assert (
-        is_goal_oriented_edges(node) is True
+        is_goal_eo(node) is True
     ), "is_goal_oriented_edges should return True for a solved cube"
 
 
 def test_is_goal_oriented_edges_with_scrambled_cube():
     node = create_scrambled_node()
     assert (
-        is_goal_oriented_edges(node) is False
+        is_goal_eo(node) is False
     ), "is_goal_oriented_edges should return False for a scrambled cube"
 
 
 def test_is_goal_DR_with_solved_cube():
     node = create_solved_node()
-    assert (
-        is_goal_domino_reduction(node) is True
-    ), "is_goal_DR should return True for a solved cube"
+    assert is_goal_dr(node) is True, "is_goal_DR should return True for a solved cube"
 
 
 def test_is_goal_DR_with_scrambled_cube():
     node = create_scrambled_node()
     assert (
-        is_goal_domino_reduction(node) is False
+        is_goal_dr(node) is False
     ), "is_goal_DR should return False for a scrambled cube"
 
 
