@@ -14,7 +14,6 @@ RUN npm ci
 # Copy the rest of the application source code
 COPY . .
 
-RUN mkdir dist/
 # Build the application
 RUN npm run build
 
@@ -27,9 +26,8 @@ ENV NODE_ENV=production
 # Remove default Nginx static assets
 RUN rm -rf /usr/share/nginx/html/*
 
-
 # Copy the build output from the builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html
 
 # Copy custom Nginx configuration (optional but recommended)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
