@@ -1,5 +1,5 @@
 import argparse
-from Solvers.alg_solver import AlgSolver
+from backend.Solvers.alg_solver import AlgSolver
 import magiccube
 
 
@@ -20,7 +20,6 @@ def main():
 
     # Self-play parser
     subparsers.add_parser("3bld", help="Solve scrambled cube using 3bld M2 method")
-
 
     # Parse the arguments
     args = parser.parse_args()

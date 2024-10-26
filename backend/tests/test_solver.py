@@ -1,5 +1,5 @@
 import magiccube
-from Solvers.alg_solver import AlgSolver
+from backend.Solvers.alg_solver import AlgSolver
 
 
 def run_3bld():
