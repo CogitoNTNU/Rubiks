@@ -1,18 +1,55 @@
 from backend.Solvers.astar.node import Node
+from backend.Solvers.domino_solver import Domino_solver
+from backend.Solvers.alg_solver import AlgSolver
 
 
-def heuristic(node: Node) -> float:
-    """
-    TODO: Implement the heuristic function.
-    The heuristic should estimate the cost from the current state to the goal.
+def heuristic_EO(node: Node) -> float:
+    cube = node.state
+    cube = Domino_solver(cube)
 
-    Args:
-        state: The current state.
+    alligned_edges = 0
 
-    Returns:
-        A numeric estimate of the cost to reach the goal from the current state.
-    """
-    raise NotImplementedError("Heuristic function is not implemented.")
+    alligned_edges += cube.check_all_edges(False)
+    alligned_edges += cube.check_all_edges(True)
+
+    return 24 - alligned_edges
+
+
+def heuristic_DR(node: Node) -> float:
+    cube = node.state
+    cube = Domino_solver(cube)
+
+    faces = 0
+
+    faces += cube.color_edge_count_on_face("W", "U")
+    faces += cube.color_corner_count_on_face("W", "U")
+
+    faces += cube.color_edge_count_on_face("Y", "U")
+    faces += cube.color_corner_count_on_face("Y", "U")
+
+    faces += cube.color_edge_count_on_face("W", "D")
+    faces += cube.color_corner_count_on_face("W", "D")
+
+    faces += cube.color_edge_count_on_face("Y", "D")
+    faces += cube.color_corner_count_on_face("Y", "D")
+
+    return 16 - faces
+
+
+def heuristic_solved(node: Node) -> float:
+    # Checks how many faces are the same as the center
+
+    cube = node.state
+    cube = Domino_solver(cube)
+
+    faces = 0
+
+    colors = ["W", "Y", "R", "O", "G", "B"]
+
+    for color in colors:
+        faces += cube.get_face_by_center(color).count(color) - 1
+
+    return 48 - faces
 
 
 def get_successors(node: Node) -> list[Node]:
