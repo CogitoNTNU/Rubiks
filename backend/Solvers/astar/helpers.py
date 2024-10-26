@@ -15,7 +15,7 @@ def heuristic(node: Node) -> float:
     raise NotImplementedError("Heuristic function is not implemented.")
 
 
-def get_successors(node: Node) -> list[Node]:
+def reconstruct_path(node: Node) -> list[Node]:
     current_node = node
     succesors = []
     i = 0
@@ -27,6 +27,7 @@ def get_successors(node: Node) -> list[Node]:
         i += 1
 
     step = (current_node.action, current_node.parent, i)
+    succesors.append(step)
 
     return succesors
 
