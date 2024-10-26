@@ -2,7 +2,7 @@ from magiccube import Cube
 from magiccube.cube import Face
 
 
-def get_cube_str(cube: Cube):
+def get_cube_str(cube: Cube) -> str:
     faces = [
         cube.get_face(Face.U),
         cube.get_face(Face.L),

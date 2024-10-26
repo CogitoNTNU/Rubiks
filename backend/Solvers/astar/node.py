@@ -9,7 +9,7 @@ class Node:
         self,
         state: Cube,
         parent: Optional["Node"] = None,
-        action: Optional[Any] = None,
+        action: Optional[str] = None,
         path_cost: float = 0.0,
         depth: int = 0,
     ):

@@ -1,5 +1,6 @@
 from backend.Solvers.astar.node import Node
 from backend.utils import get_cube_str
+from magiccube import Cube
 
 LEGAL_MOVES = {
     "EO": [
@@ -126,6 +127,12 @@ def is_goal_solved_cube(node: Node) -> bool:
 def get_children(node: Node, moves: list[str]) -> list[Node]:
     children = []
     for move in moves:
+        cube = node.state
         child = node.state.rotate(move)
         children.append(child)
     return children
+
+
+def copy(node: Node) -> Node:
+    cube_copy = Cube(node.state.size, get_cube_str(node.state))
+    return Node(cube_copy, node.parent, node.action, node.path_cost, node.depth)
