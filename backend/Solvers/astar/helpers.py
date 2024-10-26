@@ -127,8 +127,8 @@ def is_goal_solved_cube(node: Node) -> bool:
 def get_children(node: Node, moves: list[str]) -> list[Node]:
     children = []
     for move in moves:
-        cube = node.state
-        child = node.state.rotate(move)
+        copy_node = copy(node)
+        child = copy_node.state.rotate(move)
         children.append(child)
     return children
 
