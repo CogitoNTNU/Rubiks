@@ -1,61 +1,51 @@
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Tuple, List
 
 from . import Node
 
 
-class Frontier:
+def ida_star(
+    initial_state: Any,
+    heuristic_fn: Callable[[Any], float],
+    get_successors_fn: Callable[[Node], list],
+    is_goal_fn: Callable[[Any], bool],
+) -> Optional[List[Any]]:
     """
-    The frontier is a priority queue of nodes. The nodes are sorted by it cost.
-    """
-
-    def __init__(self, start_pos: Node, heuristic: Callable, is_goal: Callable):
-        """Instantiate a frontier object."""
-        self.frontier = [start_pos]
-        self.heuristic = heuristic
-
-    def get_frontier(self) -> list[Node]:
-        """Getter for the frontier"""
-        return self.frontier
-
-    def insert(self, position: Node, cost: float = 0):
-        """
-        Inserts a node into the frontier. The node is inserted in the
-        correct position based on its cost and distance towards the goal.
-        Args:
-            position (Position): The position of the node
-            cost (float, optional): The cost to reach the node. Defaults to 0.
-        """
-        self.frontier.append(Node(position, cost))
-        self.frontier.sort(
-            reverse=True,
-            key=lambda node: node.weight + self.heuristic(node),
-        )
-
-    def pop(self):
-        """
-        Finds the node with the lowest cost in the frontier and returns it.
-        As the frontier is sorted, the node with the lowest cost is the last
-        """
-        node: Node = self.frontier.pop()
-        return node.position
-
-    def is_empty(self):
-        """Checks if the frontier is empty"""
-        return len(self.frontier) == 0
-
-
-def a_star(
-    state_space, start: Node, heuristic: Callable, is_terminal_state: Callable
-) -> tuple[list[Node], list[Node]]:
-    """
-    A* algorithm implementation
+    Perform the Iterative Deepening A* search.
 
     Args:
-        state_space: The state space of the problem
-        start (Node): The start node
-        heuristic (Callable): The heuristic function
-        is_terminal_state (Callable): The goal test function
+        initial_state: The initial state from which to start the search.
+        heuristic_fn: A function that takes a state and returns its heuristic value.
+        get_successors_fn: A function that returns the successors of a given node.
+        is_goal_fn: A function that tests whether a state is the goal.
+
     Returns:
-        The path from the start to the goal node or None if no path exists
+        A list of actions to reach the goal, or None if no solution is found.
     """
-    raise NotImplementedError("A* algorithm is not implemented.")
+    raise NotImplementedError("IDA* function is not implemented.")
+
+
+def search(
+    node: Node,
+    g: float,
+    threshold: float,
+    heuristic_fn: Callable[[Any], float],
+    get_successors_fn: Callable[[Node], list],
+    is_goal_fn: Callable[[Any], bool],
+) -> Tuple[float, Optional[List[Any]]]:
+    """
+    Recursive depth-first search function used by IDA*.
+
+    Args:
+        node: The current node.
+        g: The cost to reach the current node.
+        threshold: The current threshold for f = g + h.
+        heuristic_fn: The heuristic function.
+        get_successors_fn: Function to get successors.
+        is_goal_fn: Goal test function.
+
+    Returns:
+        A tuple containing:
+            - The minimum f-value that exceeded the threshold, or float('inf') if no solution.
+            - The path to the goal as a list of actions, or None if not found.
+    """
+    raise NotImplementedError("Search function is not implemented.")

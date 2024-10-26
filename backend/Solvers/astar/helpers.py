@@ -1,4 +1,4 @@
-from . import Node
+from backend.Solvers.astar.node import Node
 
 
 def heuristic(node: Node) -> float:
