@@ -3,6 +3,8 @@ from backend.Solvers.astar.node import Node
 from backend.utils import get_cube_str
 from magiccube import Cube
 from backend.Solvers.astar.helpers import (
+    heuristic_DR,
+    heuristic_EO,
     is_goal_solved_cube,
     is_goal_dr,
     is_goal_eo,
@@ -63,3 +65,32 @@ def test_is_goal_solved_cube_with_scrambled_cube():
     assert (
         is_goal_solved_cube(node) is False
     ), "is_goal_solved_cube should return False for a scrambled cube"
+
+
+def test_is_goal_dr_correct():
+    node = create_solved_node()
+    print(node.state)
+    node.state.rotate("D2 R2 B2 F2 D2 B2")  # DR state
+    val = heuristic_DR(node.state)
+    print(f"DR heuristic value: {val}")
+    print(node.state)
+    assert is_goal_dr(node) is True, "The method does not detect when in DR"
+
+
+def test_is_goal_dr_incorrect():
+    node = create_solved_node()
+    val = heuristic_DR(node.state)
+    print(f"DR heuristic value: {val}")
+    print(node.state)
+    node.state.rotate("F R U R' U' R U R' U' R U R' U' F'")  # EO state
+    print(node.state)
+    assert is_goal_dr(node) is False, "The method does not detect when not in DR"
+
+
+def test_is_goal_eo_correct():
+    node = create_solved_node()
+    val = heuristic_EO(node.state)
+    print(f"EO heuristic value: {val}")
+    print(node.state)
+    node.state.rotate("F R U R' U' R U R' U' R U R' U' F'")  # EO state
+    assert is_goal_eo(node) is True, "is_goal_eo should return False for only EO state"

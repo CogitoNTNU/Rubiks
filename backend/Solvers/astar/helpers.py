@@ -102,21 +102,11 @@ def heuristic_solved(cube: Cube) -> float:
 
 
 def reconstruct_path(node: Node) -> list[Node]:
-    current_node = node
-    succesors = []
-    i = 0
-
-    while current_node.parent is not None:
-        step = (current_node.action, current_node.parent, i)
-        current_node = current_node.parent
-        succesors.append(step)
-        i += 1
-
-    step = (current_node.action, current_node.parent, i)
-    succesors.append(step)
-    succesors = succesors[::-1]
-    return succesors
-
+    path = []
+    while node is not None:
+        path.append(node)
+        node = node.parent
+    return path[::-1]  # Return reversed path from root to goal
 
 
 def is_goal_eo(node: Node) -> bool:
