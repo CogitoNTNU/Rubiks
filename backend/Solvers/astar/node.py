@@ -1,12 +1,13 @@
 from typing import Any, Optional
 from dataclasses import dataclass
+from magiccube import Cube
 
 
 @dataclass
 class Node:
     def __init__(
         self,
-        state: Any,
+        state: Cube,
         parent: Optional["Node"] = None,
         action: Optional[Any] = None,
         path_cost: float = 0.0,
