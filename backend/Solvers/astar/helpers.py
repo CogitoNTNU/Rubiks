@@ -117,20 +117,6 @@ def reconstruct_path(node: Node) -> list[Node]:
     succesors = succesors[::-1]
     return succesors
 
-    """
-    TODO: Implement the successor function.
-    This function should return a list of successors for a given state.
-
-
-    Args:
-        state: The current state.
-
-    Returns:
-        A list of tuples, each containing (action, successor_state, step_cost).
-    """
-    return node.parrent
-    raise NotImplementedError("Successor function is not implemented.")
-
 
 def is_goal(node: Node) -> bool:
     """
@@ -143,6 +129,28 @@ def is_goal(node: Node) -> bool:
         True if the state is a goal state, False otherwise.
     """
     raise NotImplementedError("Goal test function is not implemented.")
+
+
+def is_goal_oriented_edges(node: Node) -> bool:
+    """
+    Args:
+        state: The current state.
+
+    Returns:
+        True if the state is a goal state, False otherwise.
+    """
+    return heuristic_EO(node) == 0
+
+
+def is_goal_domino_reduction(node: Node) -> bool:
+    """
+    Args:
+        state: The current state.
+
+    Returns:
+        True if the state is a goal state, False otherwise.
+    """
+    return heuristic_DR(node) == 0
 
 
 def is_goal_solved_cube(node: Node) -> bool:
