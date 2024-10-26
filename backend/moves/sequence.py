@@ -152,7 +152,7 @@ def get_sequence(sequence_name: str) -> str:
         sequence = reverse_sequence(sequence)
 
     # Return sequence and repetitions
-    return sequence * repeat
+    return " ".join([sequence] * repeat)
 
 
 def do_sequence(moves: str) -> str:
@@ -194,4 +194,4 @@ def get_mapped_sequence(moves: str) -> list[int]:
     Returns:
         list[int]: The mapped sequence of moves.
     """
-    return [move_map[move] for move in moves.split()]
+    return [move_map[move] for move in do_sequence(moves).split()]
