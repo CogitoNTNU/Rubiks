@@ -25,10 +25,11 @@ def ida_star(
             is_goal_fn=is_goal_fn,
         )
         if t == "FOUND":
+            # print(t)
             return reconstruct_path(path[-1])  # Return the successful path
         if t == float("inf"):
             return []  # No solution exists
-        print(f"Threshold: {t}")
+        # print(f"Threshold: {t}")
         bound = t  # Increase threshold
 
 
@@ -58,7 +59,7 @@ def search(
         if not any(get_cube_str(ancestor.state) == succ_state_str for ancestor in path):
             succ.parent = node  # Set parent for path reconstruction
             path.append(succ)
-            print(f"Threshold: {min_threshold}")
+ 
 
             t = search(
                 path=path,
@@ -68,7 +69,7 @@ def search(
                 create_children_fn=create_children_fn,
                 is_goal_fn=is_goal_fn,
             )
-            print(f"Threshold: {t}")
+
             if t == "FOUND":
                 return "FOUND"
             if t < min_threshold:
