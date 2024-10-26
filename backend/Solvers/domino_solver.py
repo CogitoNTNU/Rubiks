@@ -1,5 +1,5 @@
 import numpy as np
-from Solvers.alg_solver import *
+from backend.Solvers.alg_solver import *
 
 from magiccube.cube import Cube
 from magiccube.optimizer.move_optimizer import MoveOptimizer

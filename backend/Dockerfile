@@ -16,17 +16,17 @@ RUN apt-get update && \
 ENV PATH="/root/.local/bin:$PATH"
 
 # Set working directory
-WORKDIR /code
+WORKDIR /backend
 
 # Copy Poetry files
-COPY pyproject.toml poetry.lock* /code/
+COPY pyproject.toml poetry.lock* /backend/
 
 # Install dependencies without creating a virtual environment
 RUN poetry config virtualenvs.create false && \
     poetry install --no-root --no-interaction --no-ansi
 
 # Copy the rest of the application code
-COPY . /code/
+COPY . .
 
 # Expose the application port
 EXPOSE 8000

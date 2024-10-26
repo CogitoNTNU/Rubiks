@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 # cube related imports
 import backend.moves.sequence as m
-from Solvers.alg_solver import *
+from backend.Solvers.alg_solver import *
 
 app = FastAPI()
 
@@ -44,6 +44,8 @@ async def scan_cube():
 
 class CubeModel(BaseModel):
     cube_str: str
+
+
 # load scanned cube state
 @app.get("/cube", response_model=CubeModel)
 def read_cube() -> CubeModel:
