@@ -1,80 +1,77 @@
-from typing import Any, Callable, List, Optional, Tuple
+from typing import Any, Callable, List, Union
 from magiccube import Cube
+from backend.Solvers.astar.helpers import reconstruct_path
 from backend.Solvers.astar.node import Node
+from backend.utils import get_cube_str
 
 
 def ida_star(
     initial_state: Cube,
-    heuristic_fn: Callable[[Any], float],
-    create_children_fn: Callable[[Node], list],
-    is_goal_fn: Callable[[Any], bool],
+    heuristic_fn: Callable[[Cube], float],
+    create_children_fn: Callable[[Node], List[Node]],
+    is_goal_fn: Callable[[Node], bool],
 ) -> List[Node]:
-    """
-    Perform the Iterative Deepening A* search.
+    root = Node(state=initial_state)
+    bound = heuristic_fn(root.state)
+    path = [root]
 
-    Args:
-        initial_state: The initial state from which to start the search.
-        heuristic_fn: A function that takes a state and returns its heuristic value.
-        create_children_fn: A function that generates the children of a node.
-        is_goal_fn: A function that tests whether a state is the goal.
-
-    Returns:
-        A list of actions to reach the goal, or None if no solution is found.
-    """
-    threshold = heuristic_fn(initial_state)
     while True:
-        temp_threshold, path = search(
-            initial_state, 0, threshold, heuristic_fn, get_successors_fn, is_goal_fn
+        t = search(
+            path=path,
+            g=0,
+            bound=bound,
+            heuristic_fn=heuristic_fn,
+            create_children_fn=create_children_fn,
+            is_goal_fn=is_goal_fn,
         )
-        if path is not None:
-            return path
-        if temp_threshold == float("inf"):
-            return None
-        threshold = temp_threshold
+        if t == "FOUND":
+            return reconstruct_path(path[-1])  # Return the successful path
+        if t == float("inf"):
+            return []  # No solution exists
+        print(f"Threshold: {t}")
+        bound = t  # Increase threshold
 
 
 def search(
-    node: Node,
+    path: List[Node],
     g: float,
-    threshold: float,
-    heuristic_fn: Callable[[Any], float],
-    get_successors_fn: Callable[[Node], list],
-    is_goal_fn: Callable[[Any], bool],
-) -> Tuple[float, Optional[List[Any]]]:
-    """
-    Recursive depth-first search function used by IDA*.
-
-    Args:
-        node: The current node.
-        g: The cost to reach the current node.
-        threshold: The current threshold for f = g + h.
-        heuristic_fn: The heuristic function.
-        get_successors_fn: Function to get successors.
-        is_goal_fn: Goal test function.
-
-    Returns:
-        A tuple containing:
-            - The minimum f-value that exceeded the threshold, or float('inf') if no solution.
-            - The path to the goal as a list of actions, or None if not found.
-    """
-    f = g + heuristic_fn(node)
-    if f > threshold:
-        return f, None
+    bound: float,
+    heuristic_fn: Callable[[Cube], float],
+    create_children_fn: Callable[[Node], List[Node]],
+    is_goal_fn: Callable[[Node], bool],
+) -> Union[float, str]:
+    node = path[-1]
+    f = g + heuristic_fn(node.state)
+    if f > bound:
+        return f
     if is_goal_fn(node):
-        return f, []
+        print(f"The goal is {node.state}")
+        return "FOUND"
+
     min_threshold = float("inf")
-    for successor in get_successors_fn(node):
-        successor_node, action, step_cost = successor
-        temp_threshold, temp_path = search(
-            successor_node,
-            g + step_cost,
-            threshold,
-            heuristic_fn,
-            get_successors_fn,
-            is_goal_fn,
-        )
-        if temp_path is not None:
-            return temp_threshold, [action] + temp_path
-        if temp_threshold < min_threshold:
-            min_threshold = temp_threshold
-    return min_threshold, None
+    ordering = sorted(
+        create_children_fn(node),
+        key=lambda child: g + heuristic_fn(child.state),
+    )
+    for succ in ordering:
+        succ_state_str = get_cube_str(succ.state)
+        if not any(get_cube_str(ancestor.state) == succ_state_str for ancestor in path):
+            succ.parent = node  # Set parent for path reconstruction
+            path.append(succ)
+            print(f"Threshold: {min_threshold}")
+
+            t = search(
+                path=path,
+                g=g + 1,  # Assuming uniform cost of 1 per move
+                bound=bound,
+                heuristic_fn=heuristic_fn,
+                create_children_fn=create_children_fn,
+                is_goal_fn=is_goal_fn,
+            )
+            print(f"Threshold: {t}")
+            if t == "FOUND":
+                return "FOUND"
+            if t < min_threshold:
+                min_threshold = t
+            path.pop()
+    return min_threshold

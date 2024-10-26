@@ -86,6 +86,12 @@ def test_is_goal_dr_incorrect():
     print(node.state)
     assert is_goal_dr(node) is False, "The method does not detect when not in DR"
 
+def test_is_goal_dr_incorrect2():
+    node = create_solved_node()
+    node.state.rotate("U")
+    val = heuristic_DR(node.state)
+    print(f"DR heuristic value: {val}")
+    print(node.state)
 
 def test_is_goal_eo_correct():
     node = create_solved_node()

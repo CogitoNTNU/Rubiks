@@ -152,8 +152,14 @@ def get_children(node: Node, moves: list[str]) -> list[Node]:
     for move in moves:
         copy_node = copy(node)
         copy_node.state.rotate(move)
-        children.append(copy_node)
-        copy_node.depth = node.depth + 1
+        child = Node(
+            state=copy_node.state,
+            parent=node,
+            action=move,
+            path_cost=node.path_cost + 1,
+            depth=node.depth + 1,
+        )
+        children.append(child)
     return children
 
 

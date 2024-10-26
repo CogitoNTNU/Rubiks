@@ -29,6 +29,6 @@ def test_get_children():
         assert child.state != node.state
         assert child.parent == node
         assert child.action in moves
-        assert child.path_cost == node.path_cost
+        assert child.path_cost == node.path_cost + 1
         assert child.depth == node.depth + 1
         assert child.state.size == node.state.size
