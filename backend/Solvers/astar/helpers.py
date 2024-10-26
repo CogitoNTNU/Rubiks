@@ -1,3 +1,6 @@
+from . import Node
+
+
 def heuristic(node: Node) -> float:
     """
     TODO: Implement the heuristic function.
