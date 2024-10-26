@@ -1,4 +1,3 @@
-from backend.Solvers.astar.node import Node
 from magiccube import Cube
 from backend.Solvers.astar.helpers import (
     heuristic_EO,
@@ -9,66 +8,53 @@ from backend.Solvers.astar.helpers import (
 
 def test_heuristic_solved_on_solved_cube():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-    node = Node(cube, None, None, 0, 0)
 
-    assert heuristic_solved(node) == 0
+    assert heuristic_solved(cube) == 0
 
     cube = Cube(3, "RRRRRRRRRYYYYYYYYYGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-    node = Node(cube, None, None, 0, 0)
 
-    assert heuristic_solved(node) == 0
+    assert heuristic_solved(cube) == 0
 
     cube = Cube(3, "RRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBYYYYYYYYYWWWWWWWWW")
-    node = Node(cube, None, None, 0, 0)
 
-    assert heuristic_solved(node) == 0
+    assert heuristic_solved(cube) == 0
 
 
 def test_heuristic_solved_one_move_away():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
     cube.rotate("R")
 
-    node = Node(cube, None, None, 0, 0)
-
-    assert heuristic_solved(node) == 12
+    assert heuristic_solved(cube) == 12
 
 
 def test_heuristic_solved_complex():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
     cube.rotate("R U F R F")
 
-    node = Node(cube, None, None, 0, 0)
-
-    assert heuristic_solved(node) == 48 - 17
+    assert heuristic_solved(cube) == 48 - 17
 
 
 def test_heuristic_DR_on_solved_cube():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-    node = Node(cube, None, None, 0, 0)
 
-    assert heuristic_DR(node) == 0
+    assert heuristic_DR(cube) == 0
 
 
 def test_heuristic_DR_complex():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
     cube.rotate("R U F R F")
 
-    node = Node(cube, None, None, 0, 0)
-
-    assert heuristic_DR(node) == 16 - 9
+    assert heuristic_DR(cube) == 16 - 9
 
 
 def test_heuristic_EO_on_solved_cube():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
-    node = Node(cube, None, None, 0, 0)
 
-    assert heuristic_EO(node) == 0
+    assert heuristic_EO(cube) == 0
 
 
 def test_heuristic_EO_complex():
     cube = Cube(3, "YYYYYYYYYRRRRRRRRRGGGGGGGGGOOOOOOOOOBBBBBBBBBWWWWWWWWW")
     cube.rotate("R U F R F")
 
-    node = Node(cube, None, None, 0, 0)
-
-    assert heuristic_EO(node) == 4
+    assert heuristic_EO(cube) == 4
