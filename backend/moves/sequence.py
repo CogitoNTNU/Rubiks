@@ -1,9 +1,12 @@
 import json
 import re
+import os
 
 import portalocker
 
-with open(r"moves/sequenses.json", "r", encoding="UTF-8") as f:
+basepath = os.path.dirname(__file__)
+
+with open(os.path.join(basepath, "sequenses.json"), "r") as f:
     portalocker.lock(f, portalocker.LOCK_SH)
     sequence_map: dict[str, str] = json.load(f)["ThreeByThree"]
     portalocker.unlock(f)

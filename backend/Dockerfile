@@ -16,20 +16,20 @@ RUN apt-get update && \
 ENV PATH="/root/.local/bin:$PATH"
 
 # Set working directory
-WORKDIR /backend
+WORKDIR /code/backend
 
-# Copy Poetry files
-COPY pyproject.toml poetry.lock* /backend/
+COPY backend/pyproject.toml backend/poetry.lock /code/backend/
 
 # Install dependencies without creating a virtual environment
 RUN poetry config virtualenvs.create false && \
     poetry install --no-root --no-interaction --no-ansi
 
-# Copy the rest of the application code
 COPY . .
 
 # Expose the application port
 EXPOSE 8000
 
+WORKDIR /code
+
 # Run the application
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--proxy-headers"]
+CMD ["uvicorn", "backend.api:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--proxy-headers"]
