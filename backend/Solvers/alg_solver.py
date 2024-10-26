@@ -124,24 +124,6 @@ class AlgSolver:
         ans = "".join(ans)
         return ans  # Returnerer kver blokk på samme format som når man initialiserer ei kube
 
-    @staticmethod
-    def get_cube_str(cube: Cube):
-        faces = [
-            cube.get_face(Face.U),
-            cube.get_face(Face.L),
-            cube.get_face(Face.F),
-            cube.get_face(Face.R),
-            cube.get_face(Face.B),
-            cube.get_face(Face.D),
-        ]
-        result = "".join(
-            "".join("".join(str(color) for color in row) for row in face)
-            for face in faces
-        )
-        ans = [result[x] for x in range(6, len(result), 7)]
-        ans = "".join(ans)
-        return ans
-
     def reversealg(self, alg: str):
         # reverses the given algorithm
         alg_list = alg.split(" ")
