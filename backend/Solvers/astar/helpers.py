@@ -5,7 +5,7 @@ from backend.utils import get_cube_str
 from magiccube import Cube
 
 LEGAL_MOVES = {
-    "EO": [
+    "SCRAMBLED": [
         "R",
         "R'",
         "R2",
@@ -25,7 +25,7 @@ LEGAL_MOVES = {
         "B'",
         "B2",
     ],
-    "DR": [
+    "EO": [
         "R",
         "R'",
         "R2",
@@ -41,7 +41,7 @@ LEGAL_MOVES = {
         "F2",
         "B2",
     ],
-    "SOLVED": [
+    "DR": [
         "R2",
         "U2",
         "D2",
@@ -52,8 +52,8 @@ LEGAL_MOVES = {
 }
 
 
-def heuristic_EO(node: Node) -> float:
-    cube = node.state
+def heuristic_EO(cube: Cube) -> float:
+
     cube = Domino_solver(cube)
 
     alligned_edges = 0
@@ -64,8 +64,7 @@ def heuristic_EO(node: Node) -> float:
     return 24 - alligned_edges
 
 
-def heuristic_DR(node: Node) -> float:
-    cube = node.state
+def heuristic_DR(cube: Cube) -> float:
     cube = Domino_solver(cube)
 
     faces = 0
@@ -85,10 +84,8 @@ def heuristic_DR(node: Node) -> float:
     return 16 - faces
 
 
-def heuristic_solved(node: Node) -> float:
+def heuristic_solved(cube: Cube) -> float:
     # Checks how many faces are the same as the center
-
-    cube = node.state
     cube = Domino_solver(cube)
 
     sum = 0
@@ -121,20 +118,8 @@ def reconstruct_path(node: Node) -> list[Node]:
     return succesors
 
 
-def is_goal(node: Node) -> bool:
-    """
-    TODO: Implement the goal test.
 
-    Args:
-        state: The current state.
-
-    Returns:
-        True if the state is a goal state, False otherwise.
-    """
-    raise NotImplementedError("Goal test function is not implemented.")
-
-
-def is_goal_oriented_edges(node: Node) -> bool:
+def is_goal_eo(node: Node) -> bool:
     """
     Args:
         state: The current state.
@@ -142,10 +127,10 @@ def is_goal_oriented_edges(node: Node) -> bool:
     Returns:
         True if the state is a goal state, False otherwise.
     """
-    return heuristic_EO(node) == 0
+    return heuristic_EO(node.state) == 0
 
 
-def is_goal_domino_reduction(node: Node) -> bool:
+def is_goal_dr(node: Node) -> bool:
     """
     Args:
         state: The current state.
@@ -153,7 +138,7 @@ def is_goal_domino_reduction(node: Node) -> bool:
     Returns:
         True if the state is a goal state, False otherwise.
     """
-    return heuristic_DR(node) == 0
+    return heuristic_DR(node.state) == 0
 
 
 def is_goal_solved_cube(node: Node) -> bool:
@@ -180,6 +165,18 @@ def get_children(node: Node, moves: list[str]) -> list[Node]:
         children.append(copy_node)
         copy_node.depth = node.depth + 1
     return children
+
+
+def get_children_scrambled(node: Node) -> list[Node]:
+    return get_children(node, LEGAL_MOVES["SCRAMBLED"])
+
+
+def get_children_eo(node: Node) -> list[Node]:
+    return get_children(node, LEGAL_MOVES["EO"])
+
+
+def get_children_dr(node: Node) -> list[Node]:
+    return get_children(node, LEGAL_MOVES["DR"])
 
 
 def copy(node: Node) -> Node:

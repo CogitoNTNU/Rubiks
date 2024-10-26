@@ -1,5 +1,3 @@
-# from backend.Solvers.alg_solver import *
-# from backend.Solvers.alg_solver import *
 import magiccube
 from magiccube.cube import Cube
 from magiccube.cube_base import Face
@@ -26,23 +24,6 @@ class Domino_solver:
             (2, 1, 2),
             (2, 2, 1),
         ]
-
-    def check_corners(self):
-        corner_orientation = np.zeros(8)
-        top_corners = [(0, 2, 0), (2, 2, 0), (2, 2, 2), (0, 2, 2)]
-        bottom_corners = [(0, 0, 2), (2, 0, 2), (2, 0, 0), (0, 0, 0)]
-
-        for i in range(4):
-            current_corner_piece_top = self.cube.get_piece(top_corners[i])
-            current_corner_piece_bottom = self.cube.get_piece(bottom_corners[i])
-
-            current_color_top = current_corner_piece_top.get_piece_colors_str()[1]
-            current_color_bottom = current_corner_piece_bottom.get_piece_colors_str()[1]
-            if current_color_top in ["W", "Y"]:
-                corner_orientation[i] = 1
-            if current_color_bottom in ["W", "Y"]:
-                corner_orientation[i + 4] = 1
-        return corner_orientation
 
     def get_unformated_string(self):
         cube = self.cube
@@ -80,9 +61,11 @@ class Domino_solver:
         return self.cube.get_piece(coords).get_piece_colors_str()
 
     def get_key_sticker(self, edge: str, rotated):
-        # Kan sjekke index edge[unrotated] (Når rotert vil vi bruke index 1, viss ikkje index 0)
-        # unRotatedGreen = "G", unRotatedBlue = "B"
-        # rotatedOrange = "O", rotatedRed = "R"
+        '''
+        Kan sjekke index edge[unrotated] (Når rotert vil vi bruke index 1, viss ikkje index 0)
+        unRotatedGreen = "G", unRotatedBlue = "B"
+        rotatedOrange = "O", rotatedRed = "R"'''
+        
         if "W" in edge:
             return "W"
         elif "Y" in edge:

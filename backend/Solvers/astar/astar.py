@@ -1,21 +1,21 @@
 from typing import Any, Callable, List, Optional, Tuple
-
+from magiccube import Cube
 from backend.Solvers.astar.node import Node
 
 
 def ida_star(
-    initial_state: Any,
+    initial_state: Cube,
     heuristic_fn: Callable[[Any], float],
-    get_successors_fn: Callable[[Node], list],
+    create_children_fn: Callable[[Node], list],
     is_goal_fn: Callable[[Any], bool],
-) -> Optional[List[Any]]:
+) -> List[Node]:
     """
     Perform the Iterative Deepening A* search.
 
     Args:
         initial_state: The initial state from which to start the search.
         heuristic_fn: A function that takes a state and returns its heuristic value.
-        get_successors_fn: A function that returns the successors of a given node.
+        create_children_fn: A function that generates the children of a node.
         is_goal_fn: A function that tests whether a state is the goal.
 
     Returns:
