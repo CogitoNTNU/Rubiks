@@ -1,5 +1,6 @@
-from backend.Solvers.alg_solver import *
-
+# from backend.Solvers.alg_solver import *
+# from backend.Solvers.alg_solver import *
+import magiccube
 from magiccube.cube import Cube
 from magiccube.cube_base import Face
 
@@ -10,6 +11,20 @@ class Domino_solver:
         self.cube = cube
         self.copy = Cube(3, self.get_unformated_string())
         self.value = 0
+        self.edges = [
+            (0, 0, 1),
+            (0, 1, 0),
+            (0, 1, 2),
+            (0, 2, 1),
+            (1, 0, 0),
+            (1, 0, 2),
+            (1, 2, 0),
+            (1, 2, 2),
+            (2, 0, 1),
+            (2, 1, 0),
+            (2, 1, 2),
+            (2, 2, 1),
+        ]
 
     def check_corners(self):
         corner_orientation = np.zeros(8)
@@ -60,7 +75,6 @@ class Domino_solver:
         f = self.get_face_by_center(face)
         return sum([1 for x in range(0, 9, 2) if f[x] == color and x != 4])
 
-
     def get_color_by_coords(self, coords):
         return self.cube.get_piece(coords).get_piece_colors_str()
 
@@ -80,7 +94,6 @@ class Domino_solver:
             return "O"
         elif ("R" in edge) and (rotated):
             return "R"
-        
 
     def check_all_edges(self, rotated: bool):
         tot = 0
