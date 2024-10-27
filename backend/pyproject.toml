@@ -38,5 +38,12 @@ coverage = "^7.6.4"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pylint.'MESSAGES CONTROL']
-disable = "C0114, C0115, C0116"
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint]
+disable = ["C0114", "C0115", "C0116"]
+max-line-length = 88
