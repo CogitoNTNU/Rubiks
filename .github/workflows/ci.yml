@@ -11,23 +11,45 @@ permissions:
   contents: read
 
 jobs:
-  Formatting:
+  Setup:
     runs-on: ubuntu-latest
 
+    outputs:
+      cache-hit: ${{ steps.cache-dependencies.outputs.cache-hit }}
+
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
     
     - name: Set up Python 3.12
       uses: actions/setup-python@v3
       with:
         python-version: "3.12"
 
+    - name: Cache dependencies
+      id: cache-dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pypoetry
+        key: dependencies-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: dependencies-
+
     - name: Install dependencies
+      if: steps.cache-dependencies.outputs.cache-hit != 'true'
       run: |
         cd backend
         python -m pip install --upgrade pip
         pip install poetry
         poetry install --with dev
+
+
+  Formatting:
+    runs-on: ubuntu-latest
+    needs: Setup
+
+    steps:
+    - name: Reuse code from setup
+      uses: actions/checkout@v4
 
     - name: Check import ordering with isort
       run: |
@@ -49,21 +71,11 @@ jobs:
 
   Linting:
     runs-on: ubuntu-latest
+    needs: Setup
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.12"
-
-    - name: Install dependencies
-      run: |
-        cd backend
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry install --with dev
+    - name: Reuse code from setup
+      uses: actions/checkout@v4
 
     # Blocking Pylint check for errors (E) and fatal issues (F)
     - name: Run blocking Pylint check
@@ -81,21 +93,11 @@ jobs:
 
   Test:
     runs-on: ubuntu-latest
+    needs: Setup
 
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Set up Python 3.12
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.12"
-
-    - name: Install dependencies
-      run: |
-        cd backend
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry install --with dev
+    - name: Reuse code from setup
+      uses: actions/checkout@v4
 
     - name: Run tests with Pytest
       run: |
