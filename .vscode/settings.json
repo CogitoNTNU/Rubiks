@@ -3,5 +3,8 @@
     "editor.formatOnSave": true,
     "[javascript]": {
         "editor.defaultFormatter": "vscode.typescript-language-features"
-    }
+    },
+    "pylint.args": [
+        "--rcfile=backend\\pyproject.toml"
+    ]
 }
