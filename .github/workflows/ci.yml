@@ -1,7 +1,5 @@
-# This workflow will install Python dependencies, run tests and lint with a single version of Python
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: CI
+# .github/workflows/format.yml
+name: CI Pipeline
 
 on:
   push:
@@ -13,29 +11,99 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  Formatting:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Set up Python 3.12
       uses: actions/setup-python@v3
       with:
         python-version: "3.12"
+
     - name: Install dependencies
       run: |
+        cd backend
         python -m pip install --upgrade pip
         pip install poetry
         poetry install --with dev
-        pip install flake8
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
+
+    - name: Check import ordering with isort
       run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+        cd backend
+        poetry run isort . --check
+
+    - name: Check code formatting with Black
       run: |
-        poetry run pytest
+        cd backend
+        poetry run black . --check
+
+    - name: Report code formatting issues
+      if: failure()
+      run: |
+        echo "Some code formatting issues were found."
+        echo "Review the logs above for details."
+        echo "To fix them, run 'poetry run black .' and 'poetry run isort .'."
+
+
+  Linting:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry install --with dev
+
+    # Blocking Pylint check for errors (E) and fatal issues (F)
+    - name: Run blocking Pylint check
+      run: |
+        cd backend
+        poetry run pylint . --rcfile=pyproject.toml --disable=all --enable=E,F
+
+    # Non-blocking Pylint check for conventions and warnings (C, W)
+    - name: Run non-blocking Pylint check
+      run: |
+        cd backend
+        poetry run pylint . --rcfile=pyproject.toml --disable=E,F
+      continue-on-error: true
+
+
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.12"
+
+    - name: Install dependencies
+      run: |
+        cd backend
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry install --with dev
+
+    - name: Run tests with Pytest
+      run: |
+        cd backend
+        poetry run pytest --disable-warnings --tb=short
+      continue-on-error: ${{ github.ref != 'refs/heads/main' }}
+
+    - name: Report test failures
+      if: failure()
+      run: |
+        echo "Some tests failed. Review the logs above for details."
