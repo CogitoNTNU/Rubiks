@@ -1,8 +1,9 @@
+from magiccube import Cube
+
+from backend.Solvers.alg_solver import AlgSolver
 from backend.Solvers.astar.node import Node
 from backend.Solvers.domino_solver import Domino_solver
-from backend.Solvers.alg_solver import AlgSolver
 from backend.utils import get_cube_str
-from magiccube import Cube
 
 LEGAL_MOVES = {
     "SCRAMBLED": [

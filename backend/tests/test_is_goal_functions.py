@@ -1,14 +1,15 @@
 import pytest
-from backend.Solvers.astar.node import Node
-from backend.utils import get_cube_str
 from magiccube import Cube
+
 from backend.Solvers.astar.helpers import (
     heuristic_DR,
     heuristic_EO,
-    is_goal_solved_cube,
     is_goal_dr,
     is_goal_eo,
+    is_goal_solved_cube,
 )
+from backend.Solvers.astar.node import Node
+from backend.utils import get_cube_str
 
 
 # Helper function to create a solved cube node
@@ -86,12 +87,14 @@ def test_is_goal_dr_incorrect():
     print(node.state)
     assert is_goal_dr(node) is False, "The method does not detect when not in DR"
 
+
 def test_is_goal_dr_incorrect2():
     node = create_solved_node()
     node.state.rotate("U")
     val = heuristic_DR(node.state)
     print(f"DR heuristic value: {val}")
     print(node.state)
+
 
 def test_is_goal_eo_correct():
     node = create_solved_node()

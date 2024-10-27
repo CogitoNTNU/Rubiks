@@ -1,6 +1,8 @@
 import argparse
-from backend.Solvers.alg_solver import AlgSolver
+
 import magiccube
+
+from backend.Solvers.alg_solver import AlgSolver
 
 
 def run_3bld():

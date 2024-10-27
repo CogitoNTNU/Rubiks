@@ -1,5 +1,5 @@
-from backend.Solvers.astar.node import Node
 from backend.Solvers.astar.helpers import reconstruct_path
+from backend.Solvers.astar.node import Node
 
 
 def test_node_parent():

@@ -2,20 +2,16 @@
 # Consists of alot of sets of algorithms
 
 
-Yellowcross = {
+Yellowcross = {}
 
-}
-
-Oll = { 
+Oll = {
     "Sune": "R U R' U R U2 R'",
     "Antisune": "R U2 R' U' R U' R'",
     "U": "insert",
     "Pi": "insert",
     "H": "insert",
     "T": "insert",
-    "L": "insert"
+    "L": "insert",
 }
 
-Pll = {
-
-}
+Pll = {}

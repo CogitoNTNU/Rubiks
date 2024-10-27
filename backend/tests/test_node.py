@@ -1,6 +1,7 @@
-from backend.Solvers.astar.node import Node
-from backend.Solvers.astar.helpers import copy, get_children
 from magiccube import Cube
+
+from backend.Solvers.astar.helpers import copy, get_children
+from backend.Solvers.astar.node import Node
 
 
 def test_copy():

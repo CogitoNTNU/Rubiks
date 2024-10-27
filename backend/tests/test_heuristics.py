@@ -1,9 +1,6 @@
 from magiccube import Cube
-from backend.Solvers.astar.helpers import (
-    heuristic_EO,
-    heuristic_DR,
-    heuristic_solved,
-)
+
+from backend.Solvers.astar.helpers import heuristic_DR, heuristic_EO, heuristic_solved
 
 
 def test_heuristic_solved_on_solved_cube():

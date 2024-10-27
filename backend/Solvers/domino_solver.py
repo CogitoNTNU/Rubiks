@@ -1,7 +1,7 @@
 import magiccube
+import numpy as np
 from magiccube.cube import Cube
 from magiccube.cube_base import Face
-import numpy as np
 
 
 class Domino_solver:
@@ -65,7 +65,7 @@ class Domino_solver:
         Kan sjekke index edge[unrotated] (Når rotert vil vi bruke index 1, viss ikkje index 0)
         unRotatedGreen = "G", unRotatedBlue = "B"
         rotatedOrange = "O", rotatedRed = "R"'''
-        
+
         if "W" in edge:
             return "W"
         elif "Y" in edge:

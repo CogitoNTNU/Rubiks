@@ -1,8 +1,9 @@
 import json
-import re
 import os
+import re
 
 import portalocker
+
 basepath = os.path.dirname(__file__)
 
 with open(os.path.join(basepath, "sequenses.json"), "r") as f:

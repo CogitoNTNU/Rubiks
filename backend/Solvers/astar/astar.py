@@ -1,5 +1,7 @@
 from typing import Any, Callable, List, Union
+
 from magiccube import Cube
+
 from backend.Solvers.astar.helpers import reconstruct_path
 from backend.Solvers.astar.node import Node
 from backend.utils import get_cube_str
@@ -59,7 +61,6 @@ def search(
         if not any(get_cube_str(ancestor.state) == succ_state_str for ancestor in path):
             succ.parent = node  # Set parent for path reconstruction
             path.append(succ)
- 
 
             t = search(
                 path=path,
