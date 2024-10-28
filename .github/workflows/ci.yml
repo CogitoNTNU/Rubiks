@@ -21,11 +21,17 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Poetry
-      run: |
-        pip install poetry
-
-    - name: Restore Poetry virtualenv from cache
+    - name: Cache Poetry
+      id: cache-poetry
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/pypoetry
+          ~/.local/bin/poetry
+          ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry
+    
+    - name: Cache Poetry dependencies
       id: cache-poetry-deps
       uses: actions/cache@v3
       with:
@@ -33,7 +39,12 @@ jobs:
           backend/.venv
         key: ${{ runner.os }}-python-3.12-poetry-${{ hashFiles('backend/poetry.lock') }}
 
-    - name: Install Dependencies
+    - name: Install Poetry if not cached
+      if: steps.cache-poetry.outputs.cache-hit != 'true'
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+
+    - name: Install Poetry dependencies if not cached
       if: steps.cache-poetry-deps.outputs.cache-hit != 'true'
       run: |
         cd backend
@@ -51,11 +62,16 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Poetry
-      run: |
-        pip install poetry
-    
-    - name: Restore Poetry Virtualenv from Cache
+    - name: Poetry (Cached)
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/pypoetry
+          ~/.local/bin/poetry
+          ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry
+
+    - name: Poetry dependencies (Cached)
       uses: actions/cache@v3
       with:
         path: |
@@ -90,11 +106,16 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Poetry
-      run: |
-        pip install poetry
+    - name: Poetry (Cached)
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/pypoetry
+          ~/.local/bin/poetry
+          ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry
 
-    - name: Restore Poetry Virtualenv from Cache
+    - name: Poetry dependencies (Cached)
       uses: actions/cache@v3
       with:
         path: |
@@ -125,11 +146,16 @@ jobs:
       with:
         python-version: "3.12"
 
-    - name: Install Poetry
-      run: |
-        pip install poetry
+    - name: Poetry (Cached)
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.local/share/pypoetry
+          ~/.local/bin/poetry
+          ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry
 
-    - name: Restore Poetry Virtualenv from Cache
+    - name: Poetry dependencies (Cached)
       uses: actions/cache@v3
       with:
         path: |
