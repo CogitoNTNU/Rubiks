@@ -10,16 +10,20 @@ on:
 permissions:
   contents: read
 
+env:
+  PYTHON_VERSION: "3.12.7"
+  POETRY_VERSION: "1.8.4"
+
 jobs:
   Setup:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.12
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v3
       with:
-        python-version: "3.12"
+        python-version: "${{ env.PYTHON_VERSION }}"
 
     - name: Cache Poetry
       id: cache-poetry
@@ -29,7 +33,7 @@ jobs:
           ~/.local/share/pypoetry
           ~/.local/bin/poetry
           ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry
+        key: ${{ runner.os }}-poetry-${{ env.POETRY_VERSION }}
     
     - name: Cache Poetry dependencies
       id: cache-poetry-deps
@@ -37,12 +41,12 @@ jobs:
       with:
         path: |
           backend/.venv
-        key: ${{ runner.os }}-python-3.12-poetry-${{ hashFiles('backend/poetry.lock') }}
+        key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-poetry-${{ env.POETRY_VERSION }}-${{ hashFiles('backend/poetry.lock') }}
 
     - name: Install Poetry if not cached
       if: steps.cache-poetry.outputs.cache-hit != 'true'
       run: |
-        curl -sSL https://install.python-poetry.org | python3 -
+        curl -sSL https://install.python-poetry.org | python3 - --version ${{ env.POETRY_VERSION }}
 
     - name: Install Poetry dependencies if not cached
       if: steps.cache-poetry-deps.outputs.cache-hit != 'true'
@@ -57,10 +61,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.12
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v3
       with:
-        python-version: "3.12"
+        python-version: "${{ env.PYTHON_VERSION }}"
 
     - name: Poetry (Cached)
       uses: actions/cache@v3
@@ -69,14 +73,14 @@ jobs:
           ~/.local/share/pypoetry
           ~/.local/bin/poetry
           ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry
+        key: ${{ runner.os }}-poetry-${{ env.POETRY_VERSION }}
 
     - name: Poetry dependencies (Cached)
       uses: actions/cache@v3
       with:
         path: |
           backend/.venv
-        key: ${{ runner.os }}-python-3.12-poetry-${{ hashFiles('backend/poetry.lock') }}
+        key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-poetry-${{ env.POETRY_VERSION }}-${{ hashFiles('backend/poetry.lock') }}
 
     - name: Check import ordering with isort
       run: |
@@ -101,10 +105,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.12
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v3
       with:
-        python-version: "3.12"
+        python-version: "${{ env.PYTHON_VERSION }}"
 
     - name: Poetry (Cached)
       uses: actions/cache@v3
@@ -113,14 +117,14 @@ jobs:
           ~/.local/share/pypoetry
           ~/.local/bin/poetry
           ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry
+        key: ${{ runner.os }}-poetry-${{ env.POETRY_VERSION }}
 
     - name: Poetry dependencies (Cached)
       uses: actions/cache@v3
       with:
         path: |
           backend/.venv
-        key: ${{ runner.os }}-python-3.12-poetry-${{ hashFiles('backend/poetry.lock') }}
+        key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-poetry-${{ env.POETRY_VERSION }}-${{ hashFiles('backend/poetry.lock') }}
 
      # Blocking Pylint check for errors (E) and fatal issues (F)
     - name: Run blocking Pylint check
@@ -141,10 +145,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up Python 3.12
+    - name: Set up Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v3
       with:
-        python-version: "3.12"
+        python-version: "${{ env.PYTHON_VERSION }}"
 
     - name: Poetry (Cached)
       uses: actions/cache@v3
@@ -153,14 +157,14 @@ jobs:
           ~/.local/share/pypoetry
           ~/.local/bin/poetry
           ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry
+        key: ${{ runner.os }}-poetry-${{ env.POETRY_VERSION }}
 
     - name: Poetry dependencies (Cached)
       uses: actions/cache@v3
       with:
         path: |
           backend/.venv
-        key: ${{ runner.os }}-python-3.12-poetry-${{ hashFiles('backend/poetry.lock') }}
+        key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-poetry-${{ env.POETRY_VERSION }}-${{ hashFiles('backend/poetry.lock') }}
 
     - name: Run tests with Pytest
       run: |
