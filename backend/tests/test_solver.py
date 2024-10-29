@@ -1,22 +1,29 @@
 import magiccube
 import pytest
+import random
 from magiccube import Cube
+from backend.moves.sequence import simplify_sequence
+from typing import Any, Callable, List, Union, Tuple
 
 from backend.Solvers.alg_solver import AlgSolver
 from backend.Solvers.astar.astar import ida_star
-from backend.Solvers.astar.helpers import (
-    get_children_dr,
-    get_children_eo,
-    get_children_scrambled,
-    heuristic_DR,
-    heuristic_EO,
-    heuristic_solved,
-    is_goal_dr,
-    is_goal_eo,
-    is_goal_solved_cube,
-)
+from backend.utils import *
+
+# from backend.Solvers.astar.helpers import (
+#     get_children_dr,
+#     get_children_eo,
+#     get_children_scrambled,
+#     heuristic_DR,
+#     heuristic_EO,
+#     heuristic_solved,
+#     is_goal_dr,
+#     is_goal_eo,
+#     is_goal_solved_cube,
+# )
 from backend.Solvers.astar.node import Node
 from backend.Solvers.domino_solver import Domino_solver
+
+from backend.Solvers.astar.helpers import *
 
 
 # Helper function to create a solved cube node
@@ -69,13 +76,47 @@ def test_three_moves_to_solve():
     assert len(path) >= 4
 
 
-# def test_four_moves_to_solve():
-#     node = create_solved_node()
-#     node.state.rotate("U2 R2 F2 R2 D2 F2")  # DR state
-#     path = ida_star(node.state, heuristic_solved, get_children_dr, is_goal_solved_cube)
-#     for node in path:
-#         print(node.action)
-#     assert len(path) <= 1
+def help_scramble(
+    cube: Cube, state_checker: Callable[[Cube], float], n: int, key: str
+) -> str:
+    moves = ""
+    set_cube = Cube(3, get_cube_str(cube))
+    while len(moves.split(" ")) < n + 1:
+        move = random.choice(LEGAL_MOVES[key])
+
+        new_cube = Cube(3, get_cube_str(set_cube))
+        new_cube.rotate(move)
+
+        if state_checker == None:
+            moves = moves + " " + move
+            length = len(moves)
+            simplify_sequence(moves)
+
+            if length == len(moves):
+                set_cube = new_cube
+
+        elif state_checker(new_cube) == 0:
+            moves = moves + " " + move
+            length = len(moves)
+            simplify_sequence(moves)
+
+            if length == len(moves):
+                set_cube = new_cube
+    return moves
+
+
+@pytest.mark.slow
+def test_four_moves_to_solve():
+    node = create_solved_node()
+    moves = help_scramble(node.state, heuristic_DR, 8, "DR")
+    for move in moves.split(" "):
+        node.state.rotate(move)
+        path, counter = ida_star(
+            node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
+        )
+        print(counter)
+    print(moves)
+    assert False
 
 
 @pytest.mark.slow
