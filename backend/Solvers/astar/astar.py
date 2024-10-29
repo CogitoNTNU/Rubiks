@@ -20,7 +20,7 @@ def ida_star(
     counter = 0
     depth = 0
     while True:
-        t, counter, depth = search(
+        threshold, counter, depth = search(
             path=path,
             g=0,
             bound=bound,
@@ -31,15 +31,15 @@ def ida_star(
             depth=depth,
             maxdepth=maxdepth,
         )
-        if t == "FOUND":
+        if threshold == "FOUND":
             return (
                 reconstruct_path(path[-1]),
                 counter,
                 depth,
             )  # Return the successful path and counter
-        if t == float("inf"):
+        if threshold == float("inf"):
             return [], counter, depth  # No solution exists
-        bound = t  # Increase threshold
+        bound = threshold  # Increase threshold
 
 
 def search(
@@ -62,7 +62,7 @@ def search(
     if f > bound:
         return f, counter, depth
     if is_goal_fn(node):
-        print(f"The goal is {node.state}")
+        # print(f"The goal is {node.state}")
         return "FOUND", counter, depth
 
     min_threshold = float("inf")
@@ -76,7 +76,7 @@ def search(
             succ.parent = node  # Set parent for path reconstruction
             path.append(succ)
 
-            t, counter, newdepth = search(
+            threshold, counter, newdepth = search(
                 path=path,
                 g=g + 1,  # Assuming uniform cost of 1 per move
                 bound=bound,
@@ -88,9 +88,9 @@ def search(
                 maxdepth=maxdepth,
             )
 
-            if t == "FOUND":
+            if threshold == "FOUND":
                 return "FOUND", counter, newdepth
-            if t < min_threshold:
-                min_threshold = t
+            if threshold < min_threshold:
+                min_threshold = threshold
             path.pop()
-    return min_threshold, counter
+    return min_threshold, counter, depth
