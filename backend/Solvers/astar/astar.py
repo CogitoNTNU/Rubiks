@@ -85,6 +85,7 @@ def search(
                 is_goal_fn=is_goal_fn,
                 counter=counter,
                 depth=depth + 1,
+                maxdepth=maxdepth,
             )
 
             if t == "FOUND":
