@@ -68,13 +68,16 @@ def test_three_moves_to_solve():
     assert len(path) >= 4
 
 
-# def test_four_moves_to_solve():
-#     node = create_solved_node()
-#     node.state.rotate("U2 R2 F2 R2 D2 F2")  # DR state
-#     path = ida_star(node.state, heuristic_solved, get_children_dr, is_goal_solved_cube)
-#     for node in path:
-#         print(node.action)
-#     assert len(path) <= 1
+def test_four_moves_to_solve():
+    node = create_solved_node()
+    moves = "U2 R2 F2 R2 D2 F2 U2 R2"
+    for move in moves.split(" "):
+        node.state.rotate(move)
+        path, counter = ida_star(
+            node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
+        )
+        print(counter)
+    assert False
 
 
 # def test_scrambled_to_eo():
