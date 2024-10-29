@@ -1,4 +1,5 @@
 import magiccube
+import pytest
 from magiccube import Cube
 
 from backend.Solvers.alg_solver import AlgSolver
@@ -77,6 +78,7 @@ def test_three_moves_to_solve():
 #     assert len(path) <= 1
 
 
+@pytest.mark.slow
 def test_scrambled_to_eo():
     node = create_solved_node()
     node.state.rotate("F B R B ")  # scrambled
