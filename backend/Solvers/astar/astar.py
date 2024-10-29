@@ -12,14 +12,15 @@ def ida_star(
     heuristic_fn: Callable[[Cube], float],
     create_children_fn: Callable[[Node], List[Node]],
     is_goal_fn: Callable[[Node], bool],
-) -> Tuple[List[Node], int]:
+    maxdepth: int = 6,
+) -> Tuple[List[Node], int, int]:
     root = Node(state=initial_state)
     bound = heuristic_fn(root.state)
     path = [root]
     counter = 0
-
+    depth = 0
     while True:
-        t, counter = search(
+        t, counter, depth = search(
             path=path,
             g=0,
             bound=bound,
@@ -27,14 +28,17 @@ def ida_star(
             create_children_fn=create_children_fn,
             is_goal_fn=is_goal_fn,
             counter=counter,
+            depth=depth,
+            maxdepth=maxdepth,
         )
         if t == "FOUND":
             return (
                 reconstruct_path(path[-1]),
                 counter,
+                depth,
             )  # Return the successful path and counter
         if t == float("inf"):
-            return [], counter  # No solution exists
+            return [], counter, depth  # No solution exists
         bound = t  # Increase threshold
 
 
@@ -46,15 +50,20 @@ def search(
     create_children_fn: Callable[[Node], List[Node]],
     is_goal_fn: Callable[[Node], bool],
     counter: int,
-) -> Union[Tuple[float, int], Tuple[str, int]]:
+    depth: int,
+    maxdepth: int,
+) -> Union[Tuple[float, int], Tuple[str, int], int]:
+    if depth > maxdepth:
+        return float("inf"), counter, depth  # Stop searching this path
+
     node = path[-1]
     counter += 1  # Increment the counter for each visited state
     f = g + heuristic_fn(node.state)
     if f > bound:
-        return f, counter
+        return f, counter, depth
     if is_goal_fn(node):
         print(f"The goal is {node.state}")
-        return "FOUND", counter
+        return "FOUND", counter, depth
 
     min_threshold = float("inf")
     ordering = sorted(
@@ -67,7 +76,7 @@ def search(
             succ.parent = node  # Set parent for path reconstruction
             path.append(succ)
 
-            t, counter = search(
+            t, counter, newdepth = search(
                 path=path,
                 g=g + 1,  # Assuming uniform cost of 1 per move
                 bound=bound,
@@ -75,10 +84,11 @@ def search(
                 create_children_fn=create_children_fn,
                 is_goal_fn=is_goal_fn,
                 counter=counter,
+                depth=depth + 1,
             )
 
             if t == "FOUND":
-                return "FOUND", counter
+                return "FOUND", counter, newdepth
             if t < min_threshold:
                 min_threshold = t
             path.pop()
