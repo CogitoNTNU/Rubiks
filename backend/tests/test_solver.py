@@ -1,13 +1,14 @@
+import random
+from typing import Any, Callable, List, Tuple, Union
+
 import magiccube
 import pytest
-import random
 from magiccube import Cube
-from backend.moves.sequence import simplify_sequence
-from typing import Any, Callable, List, Union, Tuple
 
+from backend.moves.sequence import simplify_sequence
 from backend.Solvers.alg_solver import AlgSolver
 from backend.Solvers.astar.astar import ida_star
-from backend.utils import *
+from backend.Solvers.astar.helpers import *
 
 # from backend.Solvers.astar.helpers import (
 #     get_children_dr,
@@ -22,8 +23,7 @@ from backend.utils import *
 # )
 from backend.Solvers.astar.node import Node
 from backend.Solvers.domino_solver import Domino_solver
-
-from backend.Solvers.astar.helpers import *
+from backend.utils import *
 
 
 # Helper function to create a solved cube node

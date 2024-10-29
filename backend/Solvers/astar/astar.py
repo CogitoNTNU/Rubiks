@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Union, Tuple
+from typing import Any, Callable, List, Tuple, Union
 
 from magiccube import Cube
 
