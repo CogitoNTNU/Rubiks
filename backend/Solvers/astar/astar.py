@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Union
+from typing import Any, Callable, List, Union, Tuple
 
 from magiccube import Cube
 
@@ -12,26 +12,29 @@ def ida_star(
     heuristic_fn: Callable[[Cube], float],
     create_children_fn: Callable[[Node], List[Node]],
     is_goal_fn: Callable[[Node], bool],
-) -> List[Node]:
+) -> Tuple[List[Node], int]:
     root = Node(state=initial_state)
     bound = heuristic_fn(root.state)
     path = [root]
+    counter = 0
 
     while True:
-        t = search(
+        t, counter = search(
             path=path,
             g=0,
             bound=bound,
             heuristic_fn=heuristic_fn,
             create_children_fn=create_children_fn,
             is_goal_fn=is_goal_fn,
+            counter=counter,
         )
         if t == "FOUND":
-            # print(t)
-            return reconstruct_path(path[-1])  # Return the successful path
+            return (
+                reconstruct_path(path[-1]),
+                counter,
+            )  # Return the successful path and counter
         if t == float("inf"):
-            return []  # No solution exists
-        # print(f"Threshold: {t}")
+            return [], counter  # No solution exists
         bound = t  # Increase threshold
 
 
@@ -42,14 +45,16 @@ def search(
     heuristic_fn: Callable[[Cube], float],
     create_children_fn: Callable[[Node], List[Node]],
     is_goal_fn: Callable[[Node], bool],
-) -> Union[float, str]:
+    counter: int,
+) -> Union[Tuple[float, int], Tuple[str, int]]:
     node = path[-1]
+    counter += 1  # Increment the counter for each visited state
     f = g + heuristic_fn(node.state)
     if f > bound:
-        return f
+        return f, counter
     if is_goal_fn(node):
         print(f"The goal is {node.state}")
-        return "FOUND"
+        return "FOUND", counter
 
     min_threshold = float("inf")
     ordering = sorted(
@@ -62,18 +67,19 @@ def search(
             succ.parent = node  # Set parent for path reconstruction
             path.append(succ)
 
-            t = search(
+            t, counter = search(
                 path=path,
                 g=g + 1,  # Assuming uniform cost of 1 per move
                 bound=bound,
                 heuristic_fn=heuristic_fn,
                 create_children_fn=create_children_fn,
                 is_goal_fn=is_goal_fn,
+                counter=counter,
             )
 
             if t == "FOUND":
-                return "FOUND"
+                return "FOUND", counter
             if t < min_threshold:
                 min_threshold = t
             path.pop()
-    return min_threshold
+    return min_threshold, counter
