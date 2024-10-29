@@ -6,5 +6,10 @@
     },
     "pylint.args": [
         "--rcfile=backend\\pyproject.toml"
-    ]
+    ],
+    "python.testing.pytestArgs": [
+        "backend"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }
