@@ -47,3 +47,11 @@ profile = "black"
 [tool.pylint]
 disable = ["C0114", "C0115", "C0116"]
 max-line-length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: mark test as slow"
+]
+norecursedirs = [".git", ".venv", "node_modules"]
+minversion = "6.0"

@@ -1,4 +1,5 @@
 import magiccube
+import pytest
 from magiccube import Cube
 
 from backend.Solvers.alg_solver import AlgSolver
@@ -80,11 +81,12 @@ def test_four_moves_to_solve():
     assert False
 
 
-# def test_scrambled_to_eo():
-#     node = create_solved_node()
-#     node.state.rotate("F B R B ")  # scrambled
-#     path = ida_star(node.state, heuristic_EO, get_children_scrambled, is_goal_eo)
-#     for node in path:
-#         print(node.action)
+@pytest.mark.slow
+def test_scrambled_to_eo():
+    node = create_solved_node()
+    node.state.rotate("F B R B ")  # scrambled
+    path = ida_star(node.state, heuristic_EO, get_children_scrambled, is_goal_eo)
+    for node in path:
+        print(node.action)
 
-#     assert len(path) == 5
+    assert len(path) == 5

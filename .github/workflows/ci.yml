@@ -167,9 +167,10 @@ jobs:
         key: ${{ runner.os }}-python-${{ env.PYTHON_VERSION }}-poetry-${{ env.POETRY_VERSION }}-${{ hashFiles('backend/poetry.lock') }}
 
     - name: Run tests with Pytest
+      timeout-minutes: 1
       run: |
         cd backend
-        poetry run pytest --disable-warnings --tb=short
+        poetry run pytest --disable-warnings --tb=short -m "not slow"
       continue-on-error: ${{ github.ref != 'refs/heads/main' }}
 
     - name: Report test failures
