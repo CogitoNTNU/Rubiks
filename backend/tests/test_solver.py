@@ -69,6 +69,7 @@ def test_three_moves_to_solve():
     assert len(path) >= 4
 
 
+@pytest.mark.slow
 def test_four_moves_to_solve():
     node = create_solved_node()
     moves = "U2 R2 F2 R2 D2 F2 U2 R2"
