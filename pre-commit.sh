@@ -1,37 +1,105 @@
 #!/bin/bash
 
-# Define colors for better readability
-GREEN='\033[0;32m'
-RED='\033[0;31m'
+# Define colors and symbols
+GREEN='\033[32m'
+RED='\033[31m'
+YELLOW='\033[33m'
 NC='\033[0m' # No Color
+CHECK_MARK="\xE2\x9C\x94" # ✓
+CROSS_MARK="\xE2\x9C\x98" # ✘
 
 # Initialize status and time variables
-ISORT_STATUS=0
-BLACK_STATUS=0
-PYLINT_STATUS=0
-PYTEST_STATUS=0
+declare -A STATUS
+declare -A TIME_TAKEN
 
-ISORT_TIME=0
-BLACK_TIME=0
-PYLINT_TIME=0
-PYTEST_TIME=0
+# Function to display usage
+usage() {
+    echo -e "Usage: $0 [options]"
+    echo -e "Options:"
+    echo -e "  --all           Run all checks (default)"
+    echo -e "  --format        Run formatting checks only (isort, black)"
+    echo -e "  --isort         Run isort only"
+    echo -e "  --black         Run black only"
+    echo -e "  --pylint        Run pylint only"
+    echo -e "  --pytest        Run pytest only"
+    echo -e "  --help          Display this help message"
+}
 
-DURATION=0
+# Function to hide the cursor
+hide_cursor() {
+    tput civis
+}
+
+# Function to show the cursor
+show_cursor() {
+    tput cnorm
+}
+
+# Function to handle cleanup on exit or interrupt
+cleanup() {
+    show_cursor
+    echo -e "\n${RED}Script interrupted. Exiting...${NC}"
+    exit 1
+}
+
+# Trap signals to ensure the cursor is shown again
+trap cleanup SIGINT SIGTERM
+
+# Parse command-line arguments
+CHECKS=()
+if [ $# -eq 0 ]; then
+    CHECKS=("isort" "black" )
+else
+    for arg in "$@"; do
+        case $arg in
+            --all)
+                CHECKS=("isort" "black" "pylint" "pytest")
+                ;;
+            --format)
+                CHECKS=("isort" "black")
+                ;;
+            --isort)
+                CHECKS+=("isort")
+                ;;
+            --black)
+                CHECKS+=("black")
+                ;;
+            --pylint)
+                CHECKS+=("pylint")
+                ;;
+            --pytest)
+                CHECKS+=("pytest")
+                ;;
+            --help)
+                usage
+                exit 0
+                ;;
+            *)
+                echo -e "${RED}Unknown option: $arg${NC}"
+                usage
+                exit 1
+                ;;
+        esac
+    done
+fi
+
+# Remove duplicates
+mapfile -t CHECKS < <(printf "%s\n" "${CHECKS[@]}" | sort -u)
 
 # Function to handle command execution with timing
 run_command() {
-    local description="$1"
-    shift
-    local cmd=$*
+    local tool="$1"
+    local description="$2"
+    local cmd="$3"
 
-    echo -e "${GREEN}${description}...${NC}"
+    echo -e "${YELLOW}${description}...${NC}"
     
     # Record start time
     local start_time
     start_time=$(date +%s)
     
     # Execute the command
-    $cmd
+    eval "$cmd"
     local status=$?
     
     # Record end time
@@ -39,68 +107,58 @@ run_command() {
     end_time=$(date +%s)
     
     # Calculate duration
-    DURATION=$((end_time - start_time))
+    local duration=$((end_time - start_time))
     
-    if [ $status -ne 0 ]; then
-        echo -e "${RED}${description} failed with status ${status}. (Time: ${DURATION}s)${NC}"
-    else
-        echo -e "${GREEN}${description} completed successfully in ${DURATION}s.${NC}"
-    fi
+    # Display result
+   echo -e "${YELLOW}Finished in ${duration}s${NC}"
     
-    return $status 
+    STATUS["$tool"]=$status
+    TIME_TAKEN["$tool"]=$duration
 }
 
 # Change to the backend directory
 cd ./backend || { echo -e "${RED}Failed to navigate to ./backend directory.${NC}"; exit 1; }
 
-echo -e "${GREEN}Starting automated code checks...${NC}"
+echo -e "${GREEN}================================${NC}"
+echo -e "${GREEN} Starting Automated Code Checks ${NC}"
+echo -e "${GREEN}================================${NC}\n"
 
-# 1. Sort imports with isort
-run_command "Running isort to sort imports" poetry run isort . --quiet
-ISORT_STATUS=$?
-ISORT_TIME=$DURATION
+# Execute selected checks
+for check in "${CHECKS[@]}"; do
+    case $check in
+        isort)
+            run_command "isort" "Running isort to sort imports" "poetry run isort . --quiet"
+            ;;
+        black)
+            run_command "black" "Running black to format code" "poetry run black . --quiet"
+            ;;
+        pylint)
+            run_command "pylint" "Running pylint to lint code" "poetry run pylint ./**/*.py --rcfile=pyproject.toml --disable=all --enable=E,F"
+            ;;
+        pytest)
+            run_command "pytest" "Running pytest to execute tests" "poetry run pytest"
+            ;;
+    esac
+done
 
-# 2. Format code with black
-run_command "Running black to format code" poetry run black . --quiet
-BLACK_STATUS=$?
-BLACK_TIME=$DURATION
-
-# 3. Lint code with pylint
-run_command "Running pylint to lint code" poetry run pylint ./**/*.py --rcfile=pyproject.toml --disable=all --enable=E,F
-PYLINT_STATUS=$?
-PYLINT_TIME=$DURATION
-
-# 4. Run tests with pytest (Uncomment if needed)
-# run_command "Running pytest to execute tests" "poetry run pytest -"
-# PYTEST_STDURATION# PYTEST_TIME=$DURATION
-
-echo -e "\n${GREEN}Automated code checks completed.${NC}\n"
-
-# Summary function
-Summary_element() {
-    local status=$1
-    local time=$2
-    local description=$3
-    
-    if [ $status -eq 0 ]; then
-        echo -e "${GREEN}- ${description}: Passed in ${time}s${NC}"
-    else
-        echo -e "${RED}- ${description}: Failed in ${time}s${NC}"
-    fi
-}
+echo -e "\n${GREEN}================================${NC}"
+echo -e "${GREEN}    Automated Checks Summary    ${NC}"
+echo -e "${GREEN}================================${NC}"
 
 # Summary of results
-echo -e "${GREEN}Summary:${NC}"
-Summary_element $ISORT_STATUS $ISORT_TIME "isort"
-Summary_element $BLACK_STATUS $BLACK_TIME "black"
-Summary_element $PYLINT_STATUS $PYLINT_TIME "pylint"
+ALL_PASSED=true
+for tool in "${CHECKS[@]}"; do
+    if [ "${STATUS[$tool]}" -eq 0 ]; then
+        echo -e "${GREEN}${CHECK_MARK}  ${tool}: Passed in ${TIME_TAKEN[$tool]}s${NC}"
+    else
+        echo -e "${RED}${CROSS_MARK}  ${tool}: Failed in ${TIME_TAKEN[$tool]}s${NC}"
+        ALL_PASSED=false
+    fi
+done
 
-# pytest Summary (Uncomment if needed)
-# Summary_element $PYTEST_STATUS $PYTEST_TIME "pytest"
-
-# Overall status
-if [ $ISORT_STATUS -eq 0 ] && [ $BLACK_STATUS -eq 0 ] && [ $PYLINT_STATUS -eq 0 ]; then
-    echo -e "\n${GREEN}All checks passed successfully!${NC}"
+# Final Status
+if $ALL_PASSED ; then
+    echo -e "\n${GREEN}All selected checks passed successfully!${NC}"
     exit 0
 else
     echo -e "\n${RED}Some checks failed. Please review the errors above.${NC}"
