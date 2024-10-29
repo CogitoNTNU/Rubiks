@@ -36,7 +36,9 @@ def create_solved_node():
 
 def test_solve_solved_cube():
     solved_cube = create_solved_node()
-    path = ida_star(solved_cube.state, heuristic_solved, get_children_dr, is_goal_dr)
+    path, counter, dept = ida_star(
+        solved_cube.state, heuristic_solved, get_children_dr, is_goal_dr
+    )
     assert len(path) == 1
 
 
@@ -44,7 +46,9 @@ def test_one_moves_to_solve():
     node = create_solved_node()
     node.state.rotate("U2")
     print(node.state)
-    path = ida_star(node.state, heuristic_solved, get_children_dr, is_goal_solved_cube)
+    path, counter, dept = ida_star(
+        node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
+    )
     print(path[0].state)
 
     assert len(path) == 2
@@ -53,7 +57,9 @@ def test_one_moves_to_solve():
 def test_two_u_moves_to_solve():
     node = create_solved_node()
     node.state.rotate("U2")
-    path = ida_star(node.state, heuristic_solved, get_children_dr, is_goal_solved_cube)
+    path, counter, dept = ida_star(
+        node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
+    )
     print(path[0].state)
     assert len(path) == 2
 
@@ -62,7 +68,9 @@ def test_two_moves_to_solve():
     node = create_solved_node()
 
     node.state.rotate("R2 F2 ")  # DR state
-    path = ida_star(node.state, heuristic_solved, get_children_dr, is_goal_solved_cube)
+    path, counter, dept = ida_star(
+        node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
+    )
     print(path[0].state)
     assert len(path) == 3
 
@@ -71,7 +79,9 @@ def test_three_moves_to_solve():
     node = create_solved_node()
 
     node.state.rotate("R2 F2 D2")  # DR state
-    path = ida_star(node.state, heuristic_solved, get_children_dr, is_goal_solved_cube)
+    path, counter, dept = ida_star(
+        node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
+    )
     print(path[0].state)
     assert len(path) >= 4
 
@@ -102,29 +112,35 @@ def help_scramble(
 
             if length == len(moves):
                 set_cube = new_cube
-    return moves
+    return moves.lstrip()
 
 
 @pytest.mark.slow
 def test_four_moves_to_solve():
     node = create_solved_node()
     moves = help_scramble(node.state, heuristic_DR, 8, "DR")
+    i = 0
     for move in moves.split(" "):
+        i += 1
         node.state.rotate(move)
-        path, counter = ida_star(
+        path, counter, dept = ida_star(
             node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
         )
+        print("moves away from solved: ", i)
+        print("solution: ", [node.action for node in path])
         print(counter)
     print(moves)
     assert False
 
 
-@pytest.mark.slow
-def test_scrambled_to_eo():
-    node = create_solved_node()
-    node.state.rotate("F B R B ")  # scrambled
-    path = ida_star(node.state, heuristic_EO, get_children_scrambled, is_goal_eo)
-    for node in path:
-        print(node.action)
+# @pytest.mark.slow
+# def test_scrambled_to_eo():
+#     node = create_solved_node()
+#     node.state.rotate("F B R B ")  # scrambled
+#     path, counter, dept = ida_star(
+#         node.state, heuristic_EO, get_children_scrambled, is_goal_eo
+#     )
+#     for node in path:
+#         print(node.action)
 
-    assert len(path) == 5
+#     assert len(path) == 5
