@@ -1,5 +1,5 @@
 import magiccube
-from magiccube.cube import Cube
+from magiccube.cube import Cube, Face
 from magiccube.optimizer.move_optimizer import MoveOptimizer
 
 letters = {
