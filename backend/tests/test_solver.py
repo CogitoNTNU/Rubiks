@@ -100,7 +100,7 @@ def help_scramble(
         if state_checker == None:
             moves = moves + " " + move
             length = len(moves)
-            simplify_sequence(moves)
+            moves = simplify_sequence(moves)
 
             if length == len(moves):
                 set_cube = new_cube
@@ -108,7 +108,7 @@ def help_scramble(
         elif state_checker(new_cube) == 0:
             moves = moves + " " + move
             length = len(moves)
-            simplify_sequence(moves)
+            moves = simplify_sequence(moves)
 
             if length == len(moves):
                 set_cube = new_cube
