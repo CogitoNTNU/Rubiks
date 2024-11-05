@@ -37,6 +37,8 @@ def test_eo_to_dr():
     moves = "U L U R"
     for move in moves.split(" "):
         node.state.rotate(move)
-        path, counter = ida_star(node.state, heuristic_DR, get_children_eo, is_goal_dr)
+        path, counter, depth = ida_star(
+            node.state, heuristic_DR, get_children_eo, is_goal_dr
+        )
         print(counter)
     assert False
