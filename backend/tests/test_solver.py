@@ -36,7 +36,7 @@ def create_solved_node():
 
 def test_solve_solved_cube():
     solved_cube = create_solved_node()
-    path, counter, dept = ida_star(
+    path, counter, depth = ida_star(
         solved_cube.state, heuristic_solved, get_children_dr, is_goal_dr
     )
     assert len(path) == 1
@@ -46,7 +46,7 @@ def test_one_moves_to_solve():
     node = create_solved_node()
     node.state.rotate("U2")
     print(node.state)
-    path, counter, dept = ida_star(
+    path, counter, depth = ida_star(
         node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
     )
     print(path[0].state)
@@ -57,7 +57,7 @@ def test_one_moves_to_solve():
 def test_two_u_moves_to_solve():
     node = create_solved_node()
     node.state.rotate("U2")
-    path, counter, dept = ida_star(
+    path, counter, depth = ida_star(
         node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
     )
     print(path[0].state)
@@ -68,7 +68,7 @@ def test_two_moves_to_solve():
     node = create_solved_node()
 
     node.state.rotate("R2 F2 ")  # DR state
-    path, counter, dept = ida_star(
+    path, counter, depth = ida_star(
         node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
     )
     print(path[0].state)
@@ -79,7 +79,7 @@ def test_three_moves_to_solve():
     node = create_solved_node()
 
     node.state.rotate("R2 F2 D2")  # DR state
-    path, counter, dept = ida_star(
+    path, counter, depth = ida_star(
         node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
     )
     print(path[0].state)
@@ -123,7 +123,7 @@ def test_four_moves_to_solve():
     for move in moves.split(" "):
         i += 1
         node.state.rotate(move)
-        path, counter, dept = ida_star(
+        path, counter, depth = ida_star(
             node.state, heuristic_solved, get_children_dr, is_goal_solved_cube
         )
         print("moves away from solved: ", i)
@@ -137,7 +137,7 @@ def test_four_moves_to_solve():
 # def test_scrambled_to_eo():
 #     node = create_solved_node()
 #     node.state.rotate("F B R B ")  # scrambled
-#     path, counter, dept = ida_star(
+#     path, counter, depth = ida_star(
 #         node.state, heuristic_EO, get_children_scrambled, is_goal_eo
 #     )
 #     for node in path:
