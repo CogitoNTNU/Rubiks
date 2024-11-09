@@ -3,12 +3,14 @@ import numpy as np
 from magiccube.cube import Cube
 from magiccube.cube_base import Face
 
+from backend.utils import get_cube_str
+
 
 class Domino_solver:
 
     def __init__(self, cube: Cube) -> None:
         self.cube = cube
-        self.copy = Cube(3, self.get_unformated_string())
+        self.copy = Cube(3, get_cube_str(self.cube))
         self.value = 0
         self.edges = [
             (0, 0, 1),
@@ -24,24 +26,6 @@ class Domino_solver:
             (2, 1, 2),
             (2, 2, 1),
         ]
-
-    def get_unformated_string(self):
-        cube = self.cube
-        faces = [
-            cube.get_face(Face.U),
-            cube.get_face(Face.L),
-            cube.get_face(Face.F),
-            cube.get_face(Face.R),
-            cube.get_face(Face.B),
-            cube.get_face(Face.D),
-        ]
-        result = "".join(
-            "".join("".join(str(color) for color in row) for row in face)
-            for face in faces
-        )
-        ans = [result[x] for x in range(6, len(result), 7)]
-        ans = "".join(ans)
-        return ans  # Returnerer kver blokk på samme format som når man initialiserer ei kube
 
     def get_face_by_center(self, face: str):
         new_face = self.cube.get_face(Face[face])
