@@ -32,7 +32,7 @@ def test_node_with_five_parent():
     node6 = Node(None, node5, "L", 5)
     assert len(reconstruct_path(node6)) == 6
     path = reconstruct_path(node6)
-    assert path[-1] == node1
+    assert path[0] == node1
 
 
 def test_two_path():

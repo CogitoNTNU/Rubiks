@@ -16,7 +16,7 @@ from backend.utils import get_cube_str
 def create_solved_node():
     # Assuming a solved cube is represented by Cube(size=3, solved_state=True) or similar
     solved_cube = Cube(3)  # Create a solved cube instance
-    node = Node(state=solved_cube, parent=None, action=None, path_cost=0, depth=0)
+    node = Node(state=solved_cube, parent=None, action=None, g=0, depth=0)
     return node
 
 
@@ -24,7 +24,7 @@ def create_solved_node():
 def create_scrambled_node():
     scrambled_cube = Cube(3)  # Create a scrambled cube instance
     scrambled_cube.rotate("R U R' U'")  # Apply moves to scramble it
-    node = Node(state=scrambled_cube, parent=None, action=None, path_cost=0, depth=0)
+    node = Node(state=scrambled_cube, parent=None, action=None, g=0, depth=0)
     return node
 
 

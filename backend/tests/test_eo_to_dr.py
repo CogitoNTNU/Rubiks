@@ -3,7 +3,7 @@ import pytest
 from magiccube import Cube
 
 from backend.Solvers.alg_solver import AlgSolver
-from backend.Solvers.astar.astar import ida_star
+from backend.Solvers.astar.astar import a_star
 from backend.Solvers.astar.helpers import (
     get_children_dr,
     get_children_eo,
@@ -23,7 +23,7 @@ from backend.Solvers.domino_solver import Domino_solver
 def create_solved_node():
     # Assuming a solved cube is represented by Cube(size=3, solved_state=True) or similar
     solved_cube = Cube(3)  # Create a solved cube instance
-    node = Node(state=solved_cube, parent=None, action=None, path_cost=0, depth=0)
+    node = Node(state=solved_cube, parent=None, action=None, g=0, depth=0)
     return node
 
 
@@ -37,8 +37,6 @@ def test_eo_to_dr():
     moves = "U L U R"
     for move in moves.split(" "):
         node.state.rotate(move)
-        path, counter, depth = ida_star(
-            node.state, heuristic_DR, get_children_eo, is_goal_dr
-        )
+        path, counter = a_star(node.state, heuristic_DR, get_children_eo, is_goal_dr)
         print(counter)
     assert False

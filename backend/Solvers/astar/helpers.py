@@ -1,3 +1,5 @@
+from typing import Callable
+
 from magiccube import Cube
 
 from backend.Solvers.alg_solver import AlgSolver
@@ -148,16 +150,21 @@ def is_goal_solved_cube(node: Node) -> bool:
     return True
 
 
-def get_children(node: Node, moves: list[str]) -> list[Node]:
+def get_children(
+    node: Node,
+    moves: list[str],
+    heuristic_fn: Callable[[Cube], float],
+) -> list[Node]:
     children = []
     for move in moves:
         copy_node = copy(node)
         copy_node.state.rotate(move)
         child = Node(
             state=copy_node.state,
+            heuristic_fn=heuristic_fn,
             parent=node,
             action=move,
-            path_cost=node.path_cost + 1,
+            g=node.g + 1,
             depth=node.depth + 1,
         )
         children.append(child)
@@ -165,17 +172,17 @@ def get_children(node: Node, moves: list[str]) -> list[Node]:
 
 
 def get_children_scrambled(node: Node) -> list[Node]:
-    return get_children(node, LEGAL_MOVES["SCRAMBLED"])
+    return get_children(node, LEGAL_MOVES["SCRAMBLED"], heuristic_EO)
 
 
 def get_children_eo(node: Node) -> list[Node]:
-    return get_children(node, LEGAL_MOVES["EO"])
+    return get_children(node, LEGAL_MOVES["EO"], heuristic_DR)
 
 
 def get_children_dr(node: Node) -> list[Node]:
-    return get_children(node, LEGAL_MOVES["DR"])
+    return get_children(node, LEGAL_MOVES["DR"], heuristic_solved)
 
 
 def copy(node: Node) -> Node:
     cube_copy = Cube(node.state.size, get_cube_str(node.state))
-    return Node(cube_copy, node.parent, node.action, node.path_cost, node.depth)
+    return Node(cube_copy, node.parent, node.action, node.g, node.depth)

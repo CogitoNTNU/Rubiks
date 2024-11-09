@@ -1,6 +1,6 @@
 from magiccube import Cube
 
-from backend.Solvers.astar.astar import ida_star, search
+from backend.Solvers.astar.astar import a_star
 from backend.Solvers.astar.helpers import *
 from backend.utils import *
 
@@ -10,7 +10,7 @@ cube.scramble(2)
 scrambled_cube = get_cube_str(cube)
 
 # First stage
-path, counter, depth = ida_star(
+path, counter = a_star(
     cube,
     heuristic_fn=heuristic_EO,
     create_children_fn=get_children_scrambled,
@@ -27,7 +27,7 @@ for move in solution1:
 
 # Second state
 eo_cube = get_cube_str(cube)
-path, counter, depth = ida_star(
+path, counter = a_star(
     cube,
     heuristic_fn=heuristic_DR,
     create_children_fn=get_children_eo,
@@ -44,7 +44,7 @@ for move in solution2:
 
 # Final state
 dr_cube = get_cube_str(cube)
-path, counter, depth = ida_star(
+path, counter = a_star(
     cube,
     heuristic_fn=heuristic_solved,
     create_children_fn=get_children_dr,
