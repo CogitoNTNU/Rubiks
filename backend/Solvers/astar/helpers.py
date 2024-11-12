@@ -45,6 +45,22 @@ LEGAL_MOVES = {
         # "B2",
     ],
     "DR": [
+        "R",
+        "R'",
+        # "R2",
+        "U",
+        "U'",
+        # "U2",
+        "D",
+        "D'",
+        # "D2",
+        "L",
+        "L'",
+        # "L2",
+        # "F2",
+        # "B2",
+    ],
+    "HTR": [
         "R2",
         "U2",
         "D2",
@@ -85,6 +101,39 @@ def heuristic_DR(cube: Cube) -> float:
     faces += cube.color_corner_count_on_face("Y", "D")
 
     return 16 - faces
+
+
+def heuristic_HTR(cube: Cube) -> float:
+    cube: Domino_solver = Domino_solver(cube)
+    faces = 0
+    # 1 axis
+    faces += cube.color_edge_count_on_face("W", "U")
+    faces += val if (val := cube.color_corner_count_on_face("W", "U")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("Y", "U")
+    faces += val if (val := cube.color_corner_count_on_face("Y", "U")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("W", "D")
+    faces += val if (val := cube.color_corner_count_on_face("W", "D")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("Y", "D")
+    faces += val if (val := cube.color_corner_count_on_face("Y", "D")) in [2, 4] else 0
+    # second axis
+    faces += cube.color_edge_count_on_face("R", "L")
+    faces += val if (val := cube.color_corner_count_on_face("R", "L")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("O", "L")
+    faces += val if (val := cube.color_corner_count_on_face("O", "L")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("R", "R")
+    faces += val if (val := cube.color_corner_count_on_face("R", "R")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("O", "R")
+    faces += val if (val := cube.color_corner_count_on_face("O", "R")) in [2, 4] else 0
+    # third axis
+    faces += cube.color_edge_count_on_face("B", "B")
+    faces += val if (val := cube.color_corner_count_on_face("B", "B")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("G", "B")
+    faces += val if (val := cube.color_corner_count_on_face("G", "B")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("B", "F")
+    faces += val if (val := cube.color_corner_count_on_face("B", "F")) in [2, 4] else 0
+    faces += cube.color_edge_count_on_face("G", "F")
+    faces += val if (val := cube.color_corner_count_on_face("G", "F")) in [2, 4] else 0
+    return 48 - faces
 
 
 def heuristic_solved(cube: Cube) -> float:
@@ -134,6 +183,16 @@ def is_goal_dr(node: Node) -> bool:
     return heuristic_DR(node.state) == 0
 
 
+def is_goal_htr(node: Node) -> bool:
+    """
+    Args:
+        state: The current state.
+    Returns:
+        True if the state is a goal state, False otherwise.
+    """
+    return heuristic_HTR(node.state) == 0
+
+
 def is_goal_solved_cube(node: Node) -> bool:
     """
     Args:
@@ -164,7 +223,7 @@ def get_children(
             heuristic_fn=heuristic_fn,
             parent=node,
             action=move,
-            g=node.g + 1,
+            g=node.g + 4,
             depth=node.depth + 1,
         )
         children.append(child)
@@ -180,7 +239,11 @@ def get_children_eo(node: Node) -> list[Node]:
 
 
 def get_children_dr(node: Node) -> list[Node]:
-    return get_children(node, LEGAL_MOVES["DR"], heuristic_solved)
+    return get_children(node, LEGAL_MOVES["DR"], heuristic_HTR)
+
+
+def get_children_htr(node: Node) -> list[Node]:
+    return get_children(node, LEGAL_MOVES["HTR"], heuristic_solved)
 
 
 def copy(node: Node) -> Node:

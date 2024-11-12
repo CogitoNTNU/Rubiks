@@ -14,7 +14,7 @@ for i in range(1, 20):
     # Setup cube
     cube = Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
     cube.scramble(i)
-    moves = cube.history()
+    moves = cube.history().copy()
     print(f"Scramble {i}: {moves}")
     scrambled_cube = get_cube_str(cube)
     start = time.time()
@@ -56,23 +56,42 @@ for i in range(1, 20):
     for move in solution2:
         cube.rotate(move)
 
-    # Final state
+    # Third state
     dr_cube = get_cube_str(cube)
-    path, counter_solved = a_star(
+    path, counter_HTR = a_star(
         cube,
-        heuristic_fn=heuristic_solved,
+        heuristic_fn=heuristic_HTR,
         create_children_fn=get_children_dr,
-        is_goal_fn=is_goal_solved_cube,
+        is_goal_fn=is_goal_htr,
     )
-    time_solved = time.time()
-    print(f"Time to solve the cube: {timedelta(seconds=time_solved - time_DR)}")
-    print(f"Nodes searched: {counter_solved}")
+    time_HTR = time.time()
+    print(f"Time to solve HTR: {timedelta(seconds=time_HTR - time_DR)}")
+    print(f"Nodes searched: {counter_HTR}")
 
     solution3 = [node.action for node in path]
     solution3.pop(0)
     print(solution3)
 
     for move in solution3:
+        cube.rotate(move)
+
+    # Final state
+    htr_cube = get_cube_str(cube)
+    path, counter_solved = a_star(
+        cube,
+        heuristic_fn=heuristic_solved,
+        create_children_fn=get_children_htr,
+        is_goal_fn=is_goal_solved_cube,
+    )
+    time_solved = time.time()
+    print(f"Time to solve the cube: {timedelta(seconds=time_solved - time_DR)}")
+    print(f"Nodes searched: {counter_solved}")
+
+    solution4 = [node.action for node in path]
+    solution4.pop(0)
+    print(solution4)
+
+    for move in solution4:
         cube.rotate(move)
 
     # solution1, solution2, solution3 = ["Joe"], ["Joe"], ["Joe"]
@@ -83,17 +102,20 @@ for i in range(1, 20):
         file.write(f"Scramble {i}: {moves}\n")
         file.write(f"First stage: {scrambled_cube}, {solution1}\n")
         file.write(f"Second stage:  {eo_cube}, {solution2}\n")
-        file.write(f"Final stage:  {dr_cube}, {solution3}\n")
+        file.write(f"Third stage:  {dr_cube}, {solution3}\n")
+        file.write(f"Final stage:  {htr_cube}, {solution4}\n")
         file.write(f"Time to solve EO: {timedelta(seconds=time_EO - start)}\n")
         file.write(f"Time to solve DR: {timedelta(seconds=time_DR - time_EO)}\n")
+        file.write(f"Time to solve HTR: {timedelta(seconds=time_HTR - time_DR)}\n")
         file.write(
-            f"Time to solve the cube: {timedelta(seconds=time_solved - time_DR)}\n"
+            f"Time to solve the cube: {timedelta(seconds=time_solved - time_HTR)}\n"
         )
         file.write(f"Total time: {timedelta(seconds=time_solved - start)}\n")
         file.write(f"Nodes searched for EO: {counter_EO}\n")
         file.write(f"Nodes searched for DR: {counter_DR}\n")
+        file.write(f"Nodes searched for HTR: {counter_HTR}\n")
         file.write(f"Nodes searched for the cube: {counter_solved}\n")
         file.write(
-            f"Total searched nodes: {counter_EO + counter_DR + counter_solved}\n"
+            f"Total searched nodes: {counter_EO + counter_DR + counter_HTR + counter_solved}\n"
         )
         file.write("----------------\n")
