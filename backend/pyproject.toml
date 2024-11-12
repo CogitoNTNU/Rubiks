@@ -51,7 +51,8 @@ max-line-length = 88
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = [
-    "slow: mark test as slow"
+    "slow: mark test as slow",
+    "heuristic: mark test as heuristic"
 ]
 norecursedirs = [".git", ".venv", "node_modules"]
 minversion = "6.0"
