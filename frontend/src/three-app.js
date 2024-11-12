@@ -58,7 +58,7 @@ export const globals = {
   animationMixer: undefined,
   cubeSize: 3,
   cubeSizeChanged: true,
-  animationSpeed: 750,
+  animationSpeed: 7500,
   axesEnabled: false
 }
 

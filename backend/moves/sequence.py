@@ -166,9 +166,9 @@ def do_sequence(moves: str) -> str:
     move_list = ""
 
     for move in moves.split(" "):
-        print(
-            re.match("|".join([r"^" + key + r"\d*[']?$" for key in sequence_map]), move)
-        )
+        # print(
+        re.match("|".join([r"^" + key + r"\d*[']?$" for key in sequence_map]), move)
+        # )
 
         # Basic moves
         if re.match(r"^[LMRUEDFSB]\d*[']?$", move):

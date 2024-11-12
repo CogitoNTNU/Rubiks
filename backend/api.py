@@ -39,7 +39,6 @@ async def scan_cube():
     global cube
     cube = Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
     cube.scramble()
-
     return {"cube": get_cube_str(cube)}
 
 
@@ -61,10 +60,14 @@ class Moves(BaseModel):
 @app.get("/moves", response_model=Moves)
 def solve_cube() -> Moves:
     global cube
+    if cube == None:
+        cube = Cube(3, "WWWWWWWWWOOOOOOOOOGGGGGGGGGRRRRRRRRRBBBBBBBBBYYYYYYYYY")
+        cube.scramble()
+
     solver = AlgSolver(cube)
     solution = solver.solve()
-    moves = Moves(moves=m.get_mapped_sequence("R U R' U'"))
 
-    # moves = Moves(moves=m.get_mapped_sequence(solution))
+    # moves = Moves(moves=m.get_mapped_sequence("M2 D M2"))
 
+    moves = Moves(moves=m.get_mapped_sequence(solution))
     return moves
