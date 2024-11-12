@@ -3,6 +3,8 @@ from typing import Callable, Optional
 
 from magiccube import Cube
 
+from backend.utils import get_cube_str
+
 
 @dataclass
 class Node:
@@ -48,5 +50,5 @@ class Node:
 
     def __eq__(self, other: "Node") -> bool:
         if isinstance(other, Node):
-            return self.f == other.f
+            return get_cube_str(self.state) == get_cube_str(other.state)
         return NotImplemented

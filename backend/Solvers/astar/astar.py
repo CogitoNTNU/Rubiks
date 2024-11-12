@@ -18,6 +18,8 @@ def a_star(
     counter = 0
     finished = False
     heap = []
+    visited = set()
+
     heapq.heappush(heap, root)
 
     while not finished:
@@ -25,8 +27,11 @@ def a_star(
         if is_goal_fn(node):
             finished = True
         children = create_children_fn(node)
+
         for child in children:
-            heapq.heappush(heap, child)
+            if get_cube_str(child.state) not in visited:
+                visited.add(get_cube_str(child.state))
+                heapq.heappush(heap, child)
         counter += 1
 
     return reconstruct_path(node), counter
