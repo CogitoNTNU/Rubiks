@@ -67,7 +67,5 @@ def solve_cube() -> Moves:
     solver = AlgSolver(cube)
     solution = solver.solve()
 
-    # moves = Moves(moves=m.get_mapped_sequence("M2 D M2"))
-
     moves = Moves(moves=m.get_mapped_sequence(solution))
     return moves
